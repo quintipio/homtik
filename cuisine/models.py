@@ -42,6 +42,8 @@ class Recette(models.Model):
     contenu = models.TextField(null=False)
     ingredients = models.ManyToManyField(Ingredient, through='RecetteIngredient')
     dateDernierePrepa = models.DateField(verbose_name="Date de dernière préparation")
+    difficulte = models.IntegerField(null=False, verbose_name="Difficulté")
+    calorie = models.IntegerField(null=False, verbose_name="Calorique")
 
     class Meta:
         verbose_name = "Recette"
