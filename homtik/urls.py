@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accueil/', genview.accueil, name="accueil"),
     path('connexion/', genview.connexion, name="connexion"),
+    path('accounts/login/', genview.connexion),
     path('deconnexion/', genview.deconnexion, name="deconnexion"),
 
     path('cuisine/', include('cuisine.urls')),

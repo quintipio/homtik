@@ -13,7 +13,7 @@ class Ingredient(models.Model):
 
 
 class AutreProduit(models.Model):
-    nom = models.CharField(max_length=60, null=False)
+    nom = models.CharField(max_length=60, null=False, verbose_name="Nom")
 
     class Meta:
         verbose_name = "Autre produits"

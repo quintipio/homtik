@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Gestion des produits{% endblock %}
+{% block menu %}{% include "cuisine/menuCuisine.html" %}{% endblock %}
+{% block content %}
+
+{% for prod in produits %}
+<div class="element center-element">
+    {{prod.nom}}
+    <a href="{% url 'effacerProduits' %}?toDel={{prod.id}}"><span class=" btn btn-danger"><i class="fas fa-trash fa sm"></i></span></a>
+</div>
+
+{%empty%}
+Aucun produits
+
+{%endfor%}
+
+<form action="{% url 'ajouter_produit' %}" method="post" class="element center-element">
+    {%csrf_token %}
+    {{form_ajout.as_p}}
+    <input type="submit" value="{{value_button_edit}}" />
+</form>
+{% endblock %}

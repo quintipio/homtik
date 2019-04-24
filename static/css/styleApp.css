@@ -91,3 +91,22 @@ footer ul li a :hover {
     text-decoration: none;
 }
 
+.element{
+    width: 30%;
+    background-color: darkgrey;
+    margin-top : 7px;
+    margin-bottom : 7px;
+    padding-left : 5px;
+    padding-right: 5px;
+    border-radius: 10px;
+}
+
+.element button {
+    margin: 4px;
+}
+
+.alert {
+    list-style-type: none;
+}
+
+
