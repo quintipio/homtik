@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Gestion des produits{% endblock %}
+{% block menu %}{% include "cuisine/menuCuisine.html" %}{% endblock %}
+{% block content %}
+
+{% for ingredient in ingredients %}
+<div class="element center-element">
+    {{ingredient.nom}}
+</div>
+
+{%empty%}
+Aucun ingrédient
+
+{%endfor%}
+
+<form action="{% url 'ajouter_ingredient' %}" method="post" class="element center-element">
+    {%csrf_token %}
+    {{form_ajout.as_p}}
+    <input type="submit" value="Ajouter" />
+</form>
+{% endblock %}
