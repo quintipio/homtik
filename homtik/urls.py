@@ -18,6 +18,7 @@ from django.urls import path, include
 from general import views as genview
 
 urlpatterns = [
+    path('', genview.accueil),
     path('admin/', admin.site.urls),
     path('accueil/', genview.accueil, name="accueil"),
     path('connexion/', genview.connexion, name="connexion"),
