@@ -4,6 +4,8 @@ from cuisine.models import Recette, RecetteIngredient
 
 
 class RecetteForm(forms.ModelForm):
+    error_css_class = "alert alert-errors"
+
     class Meta:
         model = Recette
         exclude = ("ingredients",)

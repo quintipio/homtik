@@ -27,10 +27,7 @@ def ajouterproduit(request):
     form = AutreProduitForm(request.POST or None)
 
     if form.is_valid():
-        produit = form.save(commit=False)
-        produit.save()
-        form.save_m2m()
+        form.save()
         messages.success(request, "Produit ajouté")
-        value_button_edit = "Ajouter"
     return redirect(gestionproduits)
 

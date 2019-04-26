@@ -55,7 +55,7 @@ class Recette(models.Model):
     difficulte = models.PositiveIntegerField(
         null=False,
         verbose_name="Difficulté",
-        validators=[MinValueValidator(1),MaxValueValidator(5)],
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
         choices=DIFFICULTE_CHOICE,
         default=1,
     )

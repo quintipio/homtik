@@ -18,9 +18,7 @@ def ajouteringredient(request):
     form = IngredientForm(request.POST or None)
 
     if form.is_valid():
-        ingredients = form.save(commit=False)
-        ingredients.save()
-        form.save_m2m()
+        form.save()
         messages.success(request, "Ingrédient ajouté")
     return redirect(gestioningredient)
 

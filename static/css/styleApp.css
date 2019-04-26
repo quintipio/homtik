@@ -114,4 +114,10 @@ footer ul li a :hover {
     margin-left: 5px;
 }
 
+.errorlist {
+    list-style-type: none;
+    border-radius: 5px;
+    background-color: #f1b0b7;
+}
+
 

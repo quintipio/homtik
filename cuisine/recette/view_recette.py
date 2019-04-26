@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 
 from cuisine.models import Recette, RecetteIngredient
@@ -24,7 +24,13 @@ def ajouter_recette(request):
     form_ajout = RecetteForm(request.POST or None)
     titre = "Ajouter une recette"
     value_button = "Ajouter"
-    return render(request,"cuisine/gererRecette.html", locals())
+
+    if form_ajout.is_valid():
+        #recette = form_ajout.save()
+        messages.success(request, "Votre recette a bien été ajoutée")
+        return redirect(gerer_recette())
+
+    return render(request, "cuisine/gererRecette.html", locals())
 
 
 @login_required
