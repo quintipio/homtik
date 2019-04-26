@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Gestion des produits{% endblock %}
+{% block menu %}{% include "cuisine/menuCuisine.html" %}{% endblock %}
+{% block content %}
+
+<h1 class="center-element">{{recette.titre}}</h1>
+
+<p class="paragraphe">
+    Temps de préparation : {{recette.tempsPreparation}} minutes
+    <br/>
+    Gras :
+    {% for i in calorie %}
+        <i class="fas fa-star"></i>
+    {%endfor%}
+    <br/>
+    Difficulté :
+    {% for i in difficulte %}
+    <i class="fas fa-star"></i>
+    {%endfor%}
+    <br/>
+    Date de dernière utilisation : {{recette.dateDernierePrepa}}
+</p>
+
+<p class="paragraphe">
+    Ingrédients :
+    <ul>
+        {% for ingredient in ingredients %}
+        <li>{{ingredient.quantite}} - {{ingredient.ingredient.nom}}</li>
+        {%empty%}
+        <li>Aucun ingrédients</li>
+    {%endfor%}
+    </ul>
+</p>
+<ul>
+
+</ul>
+
+<p class="paragraphe">
+    {{recette.contenu}}
+</p>
+{% endblock %}

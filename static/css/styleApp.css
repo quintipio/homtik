@@ -58,7 +58,7 @@ article {
     border-radius: 6px;
     text-align: left;
     margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
 }
 
 footer {
@@ -107,6 +107,11 @@ footer ul li a :hover {
 
 .alert {
     list-style-type: none;
+}
+
+.paragraphe{
+    margin-top: 20px;
+    margin-left: 5px;
 }
 
 

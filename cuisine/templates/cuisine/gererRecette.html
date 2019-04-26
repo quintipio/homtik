@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}{{titre}}{% endblock %}
+{% block menu %}{% include "cuisine/menuCuisine.html" %}{% endblock %}
+{% block content %}
+
+<h2 class="center-element">{{titre}}</h2>
+<form method="post" action="{% url 'ajouter_recette' %}" class="center-element">
+    {%csrf_token %}
+    {{form_ajout.as_p}}
+    <input type="submit" value="{{value_button}}" class="btn btn-primary" />
+</form>
+{% endblock %}

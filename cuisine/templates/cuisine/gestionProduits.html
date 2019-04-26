@@ -14,7 +14,7 @@ Aucun produits
 
 {%endfor%}
 
-<form action="{% url 'ajouter_produit' %}" method="post" class="element center-element">
+<form action="{% url 'ajouter_produit' %}" method="post" class="element center-element" >
     {%csrf_token %}
     {{form_ajout.as_p}}
     <input type="submit" value="{{value_button_edit}}" />

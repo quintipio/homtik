@@ -35,16 +35,15 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="{% url "accueil" %}">Accueil</a>
+                        <a class="nav-link" href="{% url 'accueil' %}">Accueil</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Cuisine
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{% url "cuisineAccueil" %}">Accueil</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Lien B</a>
+                            <a class="dropdown-item" href="{% url 'cuisineAccueil' %}">Accueil</a>
+                            <a class="dropdown-item" href="{% url 'gerer_recette' %}">Recette</a>
                         </div>
                     </li>
                     <li class="nav-item">

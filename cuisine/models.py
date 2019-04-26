@@ -1,3 +1,5 @@
+#/usr/bin/python3
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 
@@ -38,12 +40,39 @@ class Frigo(models.Model):
 
 class Recette(models.Model):
     titre = models.CharField(max_length=200, null=False)
-    tempsPreparation = models.IntegerField(null=False, verbose_name="Temps de préparation (en min)")
+    tempsPreparation = models.IntegerField(null=False, verbose_name="Temps de préparation (en min)",
+                                           validators=[MinValueValidator(1), MaxValueValidator(999)])
     contenu = models.TextField(null=False)
     ingredients = models.ManyToManyField(Ingredient, through='RecetteIngredient')
     dateDernierePrepa = models.DateField(verbose_name="Date de dernière préparation")
-    difficulte = models.IntegerField(null=False, verbose_name="Difficulté")
-    calorie = models.IntegerField(null=False, verbose_name="Calorique")
+    DIFFICULTE_CHOICE = (
+        (1, 'Très Facile'),
+        (2, 'Facile'),
+        (3, 'Moyen'),
+        (4, 'Difficile'),
+        (5, 'Très Difficile'),
+    )
+    difficulte = models.PositiveIntegerField(
+        null=False,
+        verbose_name="Difficulté",
+        validators=[MinValueValidator(1),MaxValueValidator(5)],
+        choices=DIFFICULTE_CHOICE,
+        default=1,
+    )
+    CALORIE_CHOICE = (
+        (1, 'Très peu calorique'),
+        (2, 'Peu calorique'),
+        (3, 'Normal'),
+        (4, 'Calorique'),
+        (5, 'Très Calorique'),
+    )
+    calorie = models.PositiveIntegerField(
+        null=False,
+        verbose_name="Calorique",
+        validators=[MinValueValidator(1),MaxValueValidator(5)],
+        choices=CALORIE_CHOICE,
+        default=1,
+    )
 
     class Meta:
         verbose_name = "Recette"
@@ -54,9 +83,9 @@ class Recette(models.Model):
 
 
 class RecetteIngredient(models.Model):
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.PROTECT)
-    recette = models.ForeignKey(Recette, on_delete=models.PROTECT)
-    nombre = models.PositiveIntegerField(null=False)
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+    recette = models.ForeignKey(Recette, on_delete=models.CASCADE)
+    quantite = models.CharField(max_length=50, null=False)
 
 
 class ListeCourse(models.Model):
