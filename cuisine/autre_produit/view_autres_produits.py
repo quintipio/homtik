@@ -8,26 +8,17 @@ from cuisine.models import AutreProduit
 @login_required
 def gestionproduits(request):
     produits = AutreProduit.objects.all().order_by("nom")
-    value_button_edit = "Ajouter"
     form_ajout = AutreProduitForm(request.POST or None)
+    if form_ajout.is_valid():
+        form_ajout.save()
+        messages.success(request, "Produit ajouté")
     return render(request, 'cuisine/gestionProduits.html', locals())
 
 
 @login_required
-def effacerproduit(request):
-    id_produit = request.GET.get('toDel', None)
+def effacerproduit(request, id_produit):
     article = get_object_or_404(AutreProduit, id=id_produit)
     article.delete()
     messages.warning(request, "Produit effacé")
-    return redirect(gestionproduits)
-
-
-@login_required
-def ajouterproduit(request):
-    form = AutreProduitForm(request.POST or None)
-
-    if form.is_valid():
-        form.save()
-        messages.success(request, "Produit ajouté")
     return redirect(gestionproduits)
 

@@ -7,6 +7,20 @@
 <form method="post" action="{% url 'ajouter_recette' %}" class="center-element">
     {%csrf_token %}
     {{form_ajout.as_p}}
+    {% for form in form_ingredient.forms %}
+    <div class='table'>
+        <table class='center-element'>
+            {{ form.as_table }}
+        </table>
+    </div>
+    {% endfor %}
+    <a><span class="btn btn-primary" id="add_more"><i class="fas fa-plus-circle fa"></i></span></a>
+    <script>
+        $('#add_more').click(function() {
+            cloneMore('div.table:last', 'service');
+        });
+    </script>
+    <br/>
     <input type="submit" value="{{value_button}}" class="btn btn-primary" />
 </form>
 {% endblock %}

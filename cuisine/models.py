@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Ingredient(models.Model):
-    nom = models.CharField(max_length=60, null=False)
+    nom = models.CharField(max_length=60, null=False, unique=True)
 
     class Meta:
         verbose_name = "Ingredient"
@@ -15,7 +15,7 @@ class Ingredient(models.Model):
 
 
 class AutreProduit(models.Model):
-    nom = models.CharField(max_length=60, null=False, verbose_name="Nom")
+    nom = models.CharField(max_length=60, null=False, verbose_name="Nom", unique=True)
 
     class Meta:
         verbose_name = "Autre produits"
@@ -69,7 +69,7 @@ class Recette(models.Model):
     calorie = models.PositiveIntegerField(
         null=False,
         verbose_name="Calorique",
-        validators=[MinValueValidator(1),MaxValueValidator(5)],
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
         choices=CALORIE_CHOICE,
         default=1,
     )

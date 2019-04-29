@@ -4,7 +4,6 @@ from cuisine.models import Recette, RecetteIngredient
 
 
 class RecetteForm(forms.ModelForm):
-    error_css_class = "alert alert-errors"
 
     class Meta:
         model = Recette
@@ -14,3 +13,9 @@ class RecetteForm(forms.ModelForm):
             'titre': forms.TextInput(attrs={'size': 15}),
             'tempsPreparation': forms.NumberInput(attrs={'size': 2}),
         }
+
+
+class IngredientRecetteForm(forms.ModelForm):
+    class Meta:
+        model = RecetteIngredient
+        exclude = ("recette",)
