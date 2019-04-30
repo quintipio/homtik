@@ -1,10 +1,9 @@
 from django.contrib.auth.decorators import login_required
-from django.forms import formset_factory, inlineformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 
 from cuisine.models import Recette, RecetteIngredient
-from cuisine.recette.form_recette import RecetteForm, IngredientRecetteForm
+from cuisine.recette.form_recette import RecetteForm, IngredientFormset
 
 
 def gerer_recette(request):
@@ -24,19 +23,14 @@ def consulter_recette(request, id_recette):
 def ajouter_recette(request):
     titre = "Ajouter une recette"
     value_button = "Ajouter"
-
-    ingredient_formset = formset_factory(IngredientRecetteForm, extra=2, min_num=1, max_num=30)
     
-    ingredient_form = ingredient_formset(prefix="ingred")
+    ingredient_form = IngredientFormset(prefix="ingred")
     recette_form = RecetteForm(prefix="recet")
 
     if request.method == 'POST':
 
         recette_form = RecetteForm(request.POST, prefix="recet")
-        ingredient_form = ingredient_formset(request.POST, prefix="ingred")
-
-        for t in ingredient_form.data:
-            print(t)
+        ingredient_form = IngredientFormset(request.POST, prefix="ingred")
 
         if recette_form.is_valid() and ingredient_form.is_valid():
             recette = recette_form.save()
@@ -47,14 +41,39 @@ def ajouter_recette(request):
                     instance_formset.save()
             messages.success(request, "Votre recette a bien été ajoutée")
             return redirect(gerer_recette)
-    return render(request, "cuisine/gererRecette.html", {"recette_form": recette_form,
-                                                         "ingredient_form": ingredient_form,
-                                                         "titre": titre, "value_button": value_button})
+    return render(request, "cuisine/ajouterRecette.html", {"recette_form": recette_form,
+                                                           "ingredient_form": ingredient_form,
+                                                           "titre": titre,
+                                                           "value_button": value_button})
 
 
 @login_required
-def modifier_recette(request):
-    return render(request)
+def modifier_recette(request, id_recette):
+    titre = "Modifier une recette"
+    value_button = "Modifier"
+
+    recette = get_object_or_404(Recette, id=id_recette)
+    recette_form = RecetteForm(request.POST or None, prefix="recet", instance=recette)
+    ingredient_form = IngredientFormset(request.POST or None, prefix="ingred",
+                                        queryset=RecetteIngredient.objects.filter(recette=recette))
+
+    if request.method == "POST":
+        if recette_form.is_valid() and ingredient_form.is_valid():
+            recette_form.save()
+
+            for formset in ingredient_form:
+                if "ingredient" in formset.cleaned_data and "quantite" in formset.cleaned_data:
+                    instance_formset = formset.save(commit=False)
+                    instance_formset.recette = recette
+                    instance_formset.save()
+
+            messages.success(request, "Votre recette a bien été modifée")
+            return redirect(gerer_recette())
+    return render(request, "cuisine/modifierRecette.html", {"recette_form": recette_form,
+                                                            "ingredient_form": ingredient_form,
+                                                            "titre": titre,
+                                                            "value_button": value_button,
+                                                            "id_recette": id_recette})
 
 
 @login_required

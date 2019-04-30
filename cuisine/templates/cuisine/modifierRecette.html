@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}{{titre}}{% endblock %}
+{% block menu %}{% include "cuisine/menuCuisine.html" %}{% endblock %}
+{% block content %}
+
+<h2 class="center-element">{{titre}}</h2>
+<form method="post" action="{% url 'modifier_recette' id_recette %}" class="center-element">
+    {%csrf_token %}
+    {{recette_form.as_p}}
+
+    {{ ingredient_form.management_form }}
+    {% for form in ingredient_form.forms %}
+    <div class='table'>
+        <table class='center-element'>
+            {{ form.as_table }}
+        </table>
+    </div>
+    {% endfor %}
+    <a><span class="btn btn-primary" id="add_more"><i class="fas fa-plus-circle fa"></i></span></a>
+    <script>
+        $('#add_more').click(function() {
+            cloneMore('div.table:last', 'service');
+        });
+    </script>
+    <br/>
+    <input type="submit" value="{{value_button}}" class="btn btn-primary" />
+</form>
+{% endblock %}

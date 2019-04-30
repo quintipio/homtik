@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import inlineformset_factory
+from django.forms import modelformset_factory
 
 from cuisine.models import Recette, RecetteIngredient
 
@@ -16,8 +16,4 @@ class RecetteForm(forms.ModelForm):
         }
 
 
-class IngredientRecetteForm(forms.ModelForm):
-
-    class Meta:
-        model = RecetteIngredient
-        exclude = ("recette",)
+IngredientFormset = modelformset_factory(RecetteIngredient, extra=2, min_num=1, max_num=30, exclude=("recette",))
