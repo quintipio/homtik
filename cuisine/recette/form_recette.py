@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import inlineformset_factory
 
 from cuisine.models import Recette, RecetteIngredient
 

@@ -7,6 +7,8 @@
 <form method="post" action="{% url 'ajouter_recette' %}" class="center-element">
     {%csrf_token %}
     {{recette_form.as_p}}
+
+    {{ ingredient_form.management_form }}
     {% for form in ingredient_form.forms %}
     <div class='table'>
         <table class='center-element'>

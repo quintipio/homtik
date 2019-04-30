@@ -26,23 +26,27 @@ def ajouter_recette(request):
     value_button = "Ajouter"
 
     ingredient_formset = formset_factory(IngredientRecetteForm, extra=2, min_num=1, max_num=30)
+    
+    ingredient_form = ingredient_formset(prefix="ingred")
+    recette_form = RecetteForm(prefix="recet")
 
     if request.method == 'POST':
 
         recette_form = RecetteForm(request.POST, prefix="recet")
         ingredient_form = ingredient_formset(request.POST, prefix="ingred")
 
+        for t in ingredient_form.data:
+            print(t)
+
         if recette_form.is_valid() and ingredient_form.is_valid():
             recette = recette_form.save()
             for formset in ingredient_form:
-                instance_formset = formset.save(commit=False)
-                instance_formset.recette = recette
-                instance_formset.save()
+                if "ingredient" in formset.cleaned_data and "quantite" in formset.cleaned_data:
+                    instance_formset = formset.save(commit=False)
+                    instance_formset.recette = recette
+                    instance_formset.save()
             messages.success(request, "Votre recette a bien été ajoutée")
             return redirect(gerer_recette)
-    else:
-        recette_form = RecetteForm(prefix="recet")
-        ingredient_form = ingredient_formset(prefix="ingred")
     return render(request, "cuisine/gererRecette.html", {"recette_form": recette_form,
                                                          "ingredient_form": ingredient_form,
                                                          "titre": titre, "value_button": value_button})
