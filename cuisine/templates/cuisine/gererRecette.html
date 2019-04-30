@@ -6,8 +6,8 @@
 <h2 class="center-element">{{titre}}</h2>
 <form method="post" action="{% url 'ajouter_recette' %}" class="center-element">
     {%csrf_token %}
-    {{form_ajout.as_p}}
-    {% for form in form_ingredient.forms %}
+    {{recette_form.as_p}}
+    {% for form in ingredient_form.forms %}
     <div class='table'>
         <table class='center-element'>
             {{ form.as_table }}

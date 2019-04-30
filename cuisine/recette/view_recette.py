@@ -29,21 +29,23 @@ def ajouter_recette(request):
 
     if request.method == 'POST':
 
-        form_ajout = RecetteForm(request.POST)
-        form_ingredient = ingredient_formset(request.POST)
+        recette_form = RecetteForm(request.POST, prefix="recet")
+        ingredient_form = ingredient_formset(request.POST, prefix="ingred")
 
-        if form_ajout.is_valid() and form_ingredient.is_valid():
-            recette = form_ajout.save()
-            for formset in form_ingredient:
+        if recette_form.is_valid() and ingredient_form.is_valid():
+            recette = recette_form.save()
+            for formset in ingredient_form:
                 instance_formset = formset.save(commit=False)
                 instance_formset.recette = recette
                 instance_formset.save()
             messages.success(request, "Votre recette a bien été ajoutée")
             return redirect(gerer_recette)
     else:
-        form_ajout = RecetteForm()
-        form_ingredient = ingredient_formset()
-    return render(request, "cuisine/gererRecette.html", locals())
+        recette_form = RecetteForm(prefix="recet")
+        ingredient_form = ingredient_formset(prefix="ingred")
+    return render(request, "cuisine/gererRecette.html", {"recette_form": recette_form,
+                                                         "ingredient_form": ingredient_form,
+                                                         "titre": titre, "value_button": value_button})
 
 
 @login_required
@@ -56,4 +58,4 @@ def effacer_recette(request, id_recette):
     recette = get_object_or_404(Recette, id=id_recette)
     recette.delete()
     messages.warning(request, "Recette effacée")
-    return render(request)
+    return redirect(gerer_recette)

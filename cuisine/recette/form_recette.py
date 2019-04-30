@@ -16,6 +16,7 @@ class RecetteForm(forms.ModelForm):
 
 
 class IngredientRecetteForm(forms.ModelForm):
+
     class Meta:
         model = RecetteIngredient
         exclude = ("recette",)
