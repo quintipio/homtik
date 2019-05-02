@@ -61,6 +61,10 @@ def modifier_recette(request, id_recette):
         if recette_form.is_valid() and ingredient_form.is_valid():
             recette_form.save()
 
+            for formset in ingredient_form.deleted_forms:
+                to_delete = formset.cleaned_data["id"]
+                to_delete.delete()
+
             for formset in ingredient_form:
                 if "ingredient" in formset.cleaned_data and "quantite" in formset.cleaned_data:
                     instance_formset = formset.save(commit=False)
@@ -68,7 +72,7 @@ def modifier_recette(request, id_recette):
                     instance_formset.save()
 
             messages.success(request, "Votre recette a bien été modifée")
-            return redirect(gerer_recette())
+            return redirect(gerer_recette)
     return render(request, "cuisine/modifierRecette.html", {"recette_form": recette_form,
                                                             "ingredient_form": ingredient_form,
                                                             "titre": titre,
