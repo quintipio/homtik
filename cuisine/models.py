@@ -1,6 +1,19 @@
-#/usr/bin/python3
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+
+
+class Unite(models.Model):
+    nom = models.CharField(max_length=25, null=False)
+    diminutif = models.CharField(max_length=5, null=False)
+    quantite = models.FloatField(max_length=5, null=False)
+    unite_mere = models.ForeignKey("Unite", on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        verbose_name = "Unité"
+        ordering = ['nom']
+
+    def __str__(self):
+        return self.nom
 
 
 class Ingredient(models.Model):
@@ -26,9 +39,8 @@ class AutreProduit(models.Model):
 
 
 class Frigo(models.Model):
-    ingredient = models.ForeignKey("Ingredient", on_delete=models.PROTECT)
+    ingredient = models.ForeignKey("Ingredient", on_delete=models.CASCADE)
     nombre = models.PositiveIntegerField(default=0)
-    dlc = models.DateField(verbose_name="Date limite de consomation", null=True)
 
     class Meta:
         verbose_name = "Frigo"
@@ -73,6 +85,18 @@ class Recette(models.Model):
         choices=CALORIE_CHOICE,
         default=1,
     )
+    CATEGORIE_CHOICE = (
+        (1, "Entrée"),
+        (2, "Plat"),
+        (3, "Dessert")
+    )
+    categorie = models.PositiveIntegerField(
+        null=False,
+        verbose_name="Catégorie",
+        validators=[MinValueValidator(1), MaxValueValidator(3)],
+        choices=CATEGORIE_CHOICE,
+        default=2,
+    )
 
     class Meta:
         verbose_name = "Recette"
@@ -85,7 +109,8 @@ class Recette(models.Model):
 class RecetteIngredient(models.Model):
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     recette = models.ForeignKey(Recette, on_delete=models.CASCADE)
-    quantite = models.CharField(max_length=50, null=False)
+    quantite = models.FloatField(max_length=5, null=False)
+    unite = models.ForeignKey(Unite, on_delete=models.CASCADE, null=False)
 
 
 class ListeCourse(models.Model):
@@ -108,7 +133,6 @@ class CourseAutre(models.Model):
     listeCourse = models.ForeignKey(ListeCourse, on_delete=models.PROTECT)
     autre = models.ForeignKey(AutreProduit, on_delete=models.PROTECT)
     nombre = models.PositiveIntegerField(null=False)
-
 
 
 

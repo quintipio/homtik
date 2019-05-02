@@ -1,7 +1,8 @@
 from django.contrib import admin
 from .models import Ingredient, AutreProduit, Recette, Frigo, ListeCourse, CourseAutre, CourseIngredient,\
-    RecetteIngredient
+    RecetteIngredient, Unite
 
+admin.site.register(Unite)
 admin.site.register(Ingredient)
 admin.site.register(AutreProduit)
 admin.site.register(Recette)

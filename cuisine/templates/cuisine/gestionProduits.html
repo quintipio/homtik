@@ -13,7 +13,7 @@
 <ul class="list-unstyled">
     {% for prod in produits %}
     <li class="media element">
-        <i class="fas fa-product-hunt fa-5x mr-3"></i>
+        <i class="fab fa-product-hunt fa-5x mr-3"></i>
         <div class="media-body">
             <h5 class="mt-0 mb-1">{{prod.nom}}</h5>
             <a href="{% url 'effacer_produits' prod.id %}"><span class=" btn btn-danger"><i class="fas fa-trash fa sm"></i>Supprimer</span></a>

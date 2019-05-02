@@ -25,7 +25,7 @@
     Ingrédients :
     <ul>
         {% for ingredient in ingredients %}
-        <li>{{ingredient.quantite}} - {{ingredient.ingredient.nom}}</li>
+        <li>{{ingredient.quantite}} {{ingredient.unite.diminutif}} - {{ingredient.ingredient.nom}}</li>
         {%empty%}
         <li>Aucun ingrédients</li>
     {%endfor%}
