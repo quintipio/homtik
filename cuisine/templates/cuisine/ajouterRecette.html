@@ -11,7 +11,7 @@
     {{ ingredient_form.management_form }}
     {% for form in ingredient_form.forms %}
     <div class='table'>
-        <table class='center-element'>
+        <table class='center-element table table-bordered'>
             {{ form.as_table }}
         </table>
     </div>
@@ -23,6 +23,6 @@
         });
     </script>
     <br/>
-    <input type="submit" value="{{value_button}}" class="btn btn-primary" />
+    <input type="submit" value="{{value_button}}" class="btn btn-primary button-validation" />
 </form>
 {% endblock %}

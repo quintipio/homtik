@@ -3,19 +3,26 @@
 {% block menu %}{% include "cuisine/menuCuisine.html" %}{% endblock %}
 {% block content %}
 
-{% for ingredient in ingredients %}
-<div class="element center-element">
-    {{ingredient.nom}}
-</div>
-
-{%empty%}
-Aucun ingrédient
-
-{%endfor%}
-
-<form action="{% url 'gestion_ingredient' %}" method="post" class="element center-element">
+<form action="{% url 'gestion_ingredient' %}" method="post" class="element center-element" style="display: inline">
     {%csrf_token %}
-    {{form_ajout.as_p}}
-    <input type="submit" value="Ajouter" />
+    {{form_ajout}}
+    <input type="submit" value="Créer un ingrédient" class="btn btn-primary button-validation"/>
 </form>
+
+<ul class="list-unstyled">
+    {% for ingredient in ingredients %}
+    <li class="media element">
+        <i class="fas fa-cheese fa-5x mr-3"></i>
+        <div class="media-body">
+            <h5 class="mt-0 mb-1">{{ingredient.nom}}</h5>
+        </div>
+
+    </li>
+    {%empty%}
+    <li>Aucun ingrédient</li>
+    {%endfor%}
+</ul>
+
+
+
 {% endblock %}

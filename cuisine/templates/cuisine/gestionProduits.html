@@ -3,20 +3,27 @@
 {% block menu %}{% include "cuisine/menuCuisine.html" %}{% endblock %}
 {% block content %}
 
-{% for prod in produits %}
-<div class="element center-element">
-    {{prod.nom}}
-    <a href="{% url 'effacer_produits' prod.id %}"><span class=" btn btn-danger"><i class="fas fa-trash fa sm"></i></span></a>
-</div>
-
-{%empty%}
-Aucun produits
-
-{%endfor%}
-
-<form action="{% url 'gestion_produits' %}" method="post" class="element center-element" >
+<form action="{% url 'gestion_produits' %}" method="post" class="element center-element"  style="display: inline">
     {%csrf_token %}
-    {{form_ajout.as_p}}
-    <input type="submit" value="Ajouter" />
+    {{form_ajout}}
+
+    <input type="submit" class="btn btn-primary button-validation" value="Créer un produit à la liste"/>
 </form>
+
+<ul class="list-unstyled">
+    {% for prod in produits %}
+    <li class="media element">
+        <i class="fas fa-product-hunt fa-5x mr-3"></i>
+        <div class="media-body">
+            <h5 class="mt-0 mb-1">{{prod.nom}}</h5>
+            <a href="{% url 'effacer_produits' prod.id %}"><span class=" btn btn-danger"><i class="fas fa-trash fa sm"></i>Supprimer</span></a>
+        </div>
+
+    </li>
+    {%empty%}
+    <li>Aucun produits</li>
+
+    {%endfor%}
+</ul>
+
 {% endblock %}

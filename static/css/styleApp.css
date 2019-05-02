@@ -92,13 +92,18 @@ footer ul li a :hover {
 }
 
 .element{
-    width: 30%;
-    background-color: darkgrey;
     margin-top : 7px;
     margin-bottom : 7px;
-    padding-left : 5px;
-    padding-right: 5px;
-    border-radius: 10px;
+    padding : 5px;
+}
+
+.button-validation{
+    margin:10px;
+}
+
+
+.element table a{
+    ;
 }
 
 .element button {
