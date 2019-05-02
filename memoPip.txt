@@ -1,1 +1,1 @@
-pip3 install django django-autocomplete-light pillow
+pip3 install django
