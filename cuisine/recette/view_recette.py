@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 
 from cuisine.models import Recette, RecetteIngredient
-from cuisine.recette.form_recette import RecetteForm, IngredientFormset, IngredientFormsetAjout
+from cuisine.recette.form_recette import RecetteForm, IngredientFormsetModif, IngredientFormsetAjout
 
 
 def gerer_recette(request):
@@ -54,8 +54,8 @@ def modifier_recette(request, id_recette):
 
     recette = get_object_or_404(Recette, id=id_recette)
     recette_form = RecetteForm(request.POST or None, prefix="recet", instance=recette)
-    ingredient_form = IngredientFormset(request.POST or None, prefix="ingred",
-                                        queryset=RecetteIngredient.objects.filter(recette=recette))
+    ingredient_form = IngredientFormsetModif(request.POST or None, prefix="ingred",
+                                             queryset=RecetteIngredient.objects.filter(recette=recette))
 
     if request.method == "POST":
         if recette_form.is_valid() and ingredient_form.is_valid():

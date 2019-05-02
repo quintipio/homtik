@@ -40,7 +40,8 @@ class AutreProduit(models.Model):
 
 class Frigo(models.Model):
     ingredient = models.ForeignKey("Ingredient", on_delete=models.CASCADE)
-    nombre = models.PositiveIntegerField(default=0)
+    quantite = models.FloatField(max_length=5, null=False)
+    unite = models.ForeignKey(Unite, on_delete=models.CASCADE, null=False)
 
     class Meta:
         verbose_name = "Frigo"

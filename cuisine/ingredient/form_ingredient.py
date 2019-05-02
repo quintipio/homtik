@@ -1,5 +1,5 @@
 from django import forms
-from cuisine.models import Ingredient
+from cuisine.models import Ingredient,Frigo
 
 
 class IngredientForm(forms.ModelForm):
@@ -10,4 +10,11 @@ class IngredientForm(forms.ModelForm):
 
     class Meta:
         model = Ingredient
+        exclude = ()
+
+
+class FrigoForm(forms.ModelForm):
+
+    class Meta:
+        model = Frigo
         exclude = ()

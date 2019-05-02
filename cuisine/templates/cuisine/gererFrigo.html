@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Frigo{% endblock %}
+{% block menu %}{% include "cuisine/menuCuisine.html" %}{% endblock %}
+{% block content %}
+<form action="{% url 'gerer_frigo' %}" method="post" class="element center-element" >
+    {%csrf_token %}
+    {{form_frigo.as_table}}
+
+    <input type="submit" class="btn btn-primary button-validation" value="Ajouter un ingrédient au frigo"/>
+</form>
+
+<ul class="list-unstyled">
+    {% for element in liste_element %}
+    <li class="media element">
+        <i class="fas fa-cheese fa-5x mr-3"></i>
+        <div class="media-body">
+            <h5 class="mt-0 mb-1">{{element.ingredient}}</h5>
+            {{element.quantite}} {{element.unite.diminutif}}
+            <a href="{% url 'modifier_ingredient_frigo' element.id %}"><span class=" btn btn-info"><i class="fas fa-edit fa sm"></i>Modifier</span></a>
+            <a href="{% url 'effacer_ingredient_frigo' element.id %}"><span class=" btn btn-danger"><i class="fas fa-trash fa sm"></i>Supprimer</span></a>
+        </div>
+
+    </li>
+    {%empty%}
+    <li>Le frigo est vide</li>
+
+    {%endfor%}
+</ul>
+{% endblock %}
