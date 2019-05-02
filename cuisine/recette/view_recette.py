@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 
 from cuisine.models import Recette, RecetteIngredient
-from cuisine.recette.form_recette import RecetteForm, IngredientFormset
+from cuisine.recette.form_recette import RecetteForm, IngredientFormset, IngredientFormsetAjout
 
 
 def gerer_recette(request):
@@ -24,13 +24,13 @@ def ajouter_recette(request):
     titre = "Ajouter une recette"
     value_button = "Ajouter"
     
-    ingredient_form = IngredientFormset(prefix="ingred")
+    ingredient_form = IngredientFormsetAjout(prefix="ingred")
     recette_form = RecetteForm(prefix="recet")
 
     if request.method == 'POST':
 
         recette_form = RecetteForm(request.POST, prefix="recet")
-        ingredient_form = IngredientFormset(request.POST, prefix="ingred")
+        ingredient_form = IngredientFormsetAjout(request.POST, prefix="ingred")
 
         if recette_form.is_valid() and ingredient_form.is_valid():
             recette = recette_form.save()
