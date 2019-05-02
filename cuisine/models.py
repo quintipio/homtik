@@ -11,6 +11,9 @@ class Unite(models.Model):
     class Meta:
         verbose_name = "Unité"
         ordering = ['nom']
+        permissions = (
+            ("gerer_unite", "Gérer les unités"),
+        )
 
     def __str__(self):
         return self.nom
@@ -22,6 +25,10 @@ class Ingredient(models.Model):
     class Meta:
         verbose_name = "Ingredient"
         ordering = ['nom']
+        permissions = (
+            ("utiliser_ingredient", "Voir, Ajouter un ingrédient"),
+            ("modifier_ingredient", "Modifier, Supprimer un ingrédient"),
+        )
 
     def __str__(self):
         return self.nom
@@ -33,6 +40,10 @@ class AutreProduit(models.Model):
     class Meta:
         verbose_name = "Autre produits"
         ordering = ['nom']
+        permissions = (
+            ("utiliser_produit", "Voir, Ajouter un produit"),
+            ("modifier_produit", "Modifier, Supprimer un produit"),
+        )
 
     def __str__(self):
         return self.nom
@@ -46,6 +57,9 @@ class Frigo(models.Model):
     class Meta:
         verbose_name = "Frigo"
         ordering = ['ingredient']
+        permissions = (
+            ("gerer_frigo", "Modifier le frigo"),
+        )
 
     def __str__(self):
         return self.ingredient.nom
@@ -102,6 +116,10 @@ class Recette(models.Model):
     class Meta:
         verbose_name = "Recette"
         ordering = ['titre']
+        permissions = (
+            ("utiliser_recette", "Ajouter, Voir une recette"),
+            ("modifier_recette", "Modifier, Supprimer une recette"),
+        )
 
     def __str__(self):
         return self.titre
@@ -119,6 +137,12 @@ class ListeCourse(models.Model):
     ingredients = models.ManyToManyField(Ingredient, through='CourseIngredient')
     autre = models.ManyToManyField(AutreProduit, through='CourseAutre')
     commentaire = models.TextField()
+
+    class Meta:
+        permissions = (
+            ("utiliser_liste_course", "Ajouter, Voir, Modifier une liste de course"),
+            ("effacer_liste_course", "Supprimer une liste de course"),
+        )
 
     def __str__(self):
         return self.nom
