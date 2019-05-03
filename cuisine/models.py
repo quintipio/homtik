@@ -115,7 +115,7 @@ class Recette(models.Model):
 
     class Meta:
         verbose_name = "Recette"
-        ordering = ['titre']
+        ordering = ['categorie', 'titre']
         permissions = (
             ("utiliser_recette", "Ajouter, Voir une recette"),
             ("modifier_recette", "Modifier, Supprimer une recette"),
@@ -129,7 +129,7 @@ class RecetteIngredient(models.Model):
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     recette = models.ForeignKey(Recette, on_delete=models.CASCADE)
     quantite = models.FloatField(max_length=5, null=False)
-    unite = models.ForeignKey(Unite, on_delete=models.CASCADE, null=False)
+    unite = models.ForeignKey(Unite, on_delete=models.CASCADE, null=False, default=3)
 
 
 class ListeCourse(models.Model):
@@ -151,13 +151,16 @@ class ListeCourse(models.Model):
 class CourseIngredient(models.Model):
     listeCourse = models.ForeignKey(ListeCourse, on_delete=models.PROTECT)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.PROTECT)
-    nombre = models.PositiveIntegerField(null=False)
+    quantite = models.FloatField(null=False)
+    unite = models.ForeignKey(Unite, on_delete=models.CASCADE, null=False, default=3)
+    achete = models.BooleanField(null=False, default=False)
 
 
 class CourseAutre(models.Model):
     listeCourse = models.ForeignKey(ListeCourse, on_delete=models.PROTECT)
     autre = models.ForeignKey(AutreProduit, on_delete=models.PROTECT)
-    nombre = models.PositiveIntegerField(null=False)
+    nombre = models.CharField(max_length=50, null=False)
+    achete = models.BooleanField(null=False, default=False)
 
 
 

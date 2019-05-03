@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Liste de course{% endblock %}
+{% block menu %}{% include "cuisine/menuCuisine.html" %}{% endblock %}
+{% block content %}
+
+<h2>{{liste.nom}}</h2>
+<div>
+    Commentaire : <br/>
+    {{liste.commentaire}}
+</div>
+
+<ul class="liste-A">
+    {% for element in liste_ingredient %}
+    <li>
+        {% if perms.cuisine.utiliser_liste_course%}
+        <a href="{% url 'effacer_ingredient_course' element.id %}"><span class=" btn btn-danger"><i class="fas fa-trash fa sm"></i></span></a>
+        {% endif %}
+        {{element.ingredient}} : {{element.quantite}} {{element.unite}}
+    </li>
+    {% endfor %}
+
+    {% for element in liste_autre %}
+    <li>
+        {% if perms.cuisine.utiliser_liste_course%}
+        <a href="{% url 'effacer_produit_course' element.id %}"><span class=" btn btn-danger"><i class="fas fa-trash fa sm"></i></span></a>
+        {% endif %}
+        {{element.autre}} : {{element.nombre}}
+    </li>
+    {% endfor %}
+</ul>
+
+{% if perms.cuisine.effacer_liste_course %}
+<a href="{% url 'nouvelle_course' %}" class="center-element"><span class=" btn btn-primary"><i class="fa fa-list-ul fa sm"></i>Nouvelle liste</span></a>
+{% endif %}
+
+{% if perms.cuisine.utiliser_liste_course%}
+<form method="post" action="{% url 'ajouter_produit_course' %}" class="form">
+    {%csrf_token %}
+    {{produit_form.as_table}}
+    <input type="submit" class="btn btn-secondary button-validation" value="Ajouter un produit">
+</form>
+
+<form method="post" action="{% url 'ajouter_ingredient_course' %}" class="form">
+    {%csrf_token %}
+    {{ingredient_form.as_table}}
+    <input type="submit" class="btn btn-secondary button-validation" value="Ajouter un ingrédient">
+</form>
+
+<form method="post" action="{% url 'modifier_commentaire_course' %}" class="form">
+    {%csrf_token %}
+    {{commentaire_form.as_p}}
+    <input type="submit" class="btn btn-secondary button-validation" value="Modifier le commentaire">
+</form>
+
+{% endif %}
+{% endblock %}

@@ -7,7 +7,7 @@
     <li class="media element">
         <i class="fas fa-utensils fa-5x mr-3"></i>
         <div class="media-body">
-            <h5 class="mt-0 mb-1">{{rec.titre}}</h5>
+            <h5 class="mt-0 mb-1">{{rec.get_categorie_display }} : {{rec.titre}}</h5>
             <a href="{% url 'consulter_recette' rec.id %}"><span class=" btn btn-primary"><i class="fas fa-eye"></i>Consulter</span></a>
             {% if perms.cuisine.modifier_recette %}
             <a href="{% url 'modifier_recette' rec.id %}"><span class=" btn btn-info"><i class="fas fa-edit fa sm"></i>Modifier</span></a>

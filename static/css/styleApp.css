@@ -101,6 +101,15 @@ footer ul li a :hover {
     margin:10px;
 }
 
+.form{
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 15px;
+    margin-left: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
 
 .element table a{
     ;
@@ -108,6 +117,17 @@ footer ul li a :hover {
 
 .element button {
     margin: 4px;
+}
+
+.liste-A{
+    list-style-type: none;
+}
+
+.liste-A li {
+    background-color: #c8cbcf;
+    border-radius: 7px;
+    padding: 10px;
+    margin:7px;
 }
 
 .alert {
