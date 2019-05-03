@@ -45,7 +45,9 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{% url 'cuisineAccueil' %}">Accueil</a>
                             <a class="dropdown-item" href="{% url 'gerer_recette' %}">Recette</a>
+                            {%if user.is_authenticated %}
                             <a class="dropdown-item" href="{% url 'gerer_frigo' %}">Le frigo</a>
+                            {% endif %}
                         </div>
                     </li>
                     <li class="nav-item">
@@ -87,6 +89,11 @@
             <ul>
                 <li>Version 0.1</li>
                 <li><a href="/admin">Administration</a></li>
+                {%if user.is_authenticated %}
+                <li><a href="{% url 'change_mdp' %}">Changer le mot de passe</a></li>
+                {%else%}
+                <li><a href="{% url 'reset_mdp' %}">Réinitialiser le mot de passe</a></li>
+                {% endif %}
             </ul>
         </div>
     </footer>

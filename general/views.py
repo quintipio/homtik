@@ -29,3 +29,7 @@ def connexion(request):
 def deconnexion(request):
     logout(request)
     return redirect(connexion)
+
+
+def err404(request, exception):
+    return render(request, "general/err404.html")

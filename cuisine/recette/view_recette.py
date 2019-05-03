@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 
@@ -20,6 +20,7 @@ def consulter_recette(request, id_recette):
 
 
 @login_required
+@permission_required('cuisine.utiliser_recette')
 def ajouter_recette(request):
     titre = "Ajouter une recette"
     value_button = "Ajouter"
@@ -48,6 +49,7 @@ def ajouter_recette(request):
 
 
 @login_required
+@permission_required('cuisine.modifier_recette')
 def modifier_recette(request, id_recette):
     titre = "Modifier une recette"
     value_button = "Modifier"
@@ -81,6 +83,7 @@ def modifier_recette(request, id_recette):
 
 
 @login_required
+@permission_required('cuisine.modifier_recette')
 def effacer_recette(request, id_recette):
     recette = get_object_or_404(Recette, id=id_recette)
     recette.delete()

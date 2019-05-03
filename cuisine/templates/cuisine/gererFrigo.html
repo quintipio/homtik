@@ -5,8 +5,9 @@
 <form action="{% url 'gerer_frigo' %}" method="post" class="element center-element" >
     {%csrf_token %}
     {{form_frigo.as_table}}
-
+    {% if perms.cuisine.gerer_frigo %}
     <input type="submit" class="btn btn-primary button-validation" value="Ajouter un ingrédient au frigo"/>
+    {% endif %}
 </form>
 
 <ul class="list-unstyled">
@@ -16,8 +17,10 @@
         <div class="media-body">
             <h5 class="mt-0 mb-1">{{element.ingredient}}</h5>
             {{element.quantite}} {{element.unite.diminutif}}
+            {% if perms.cuisine.gerer_frigo %}
             <a href="{% url 'modifier_ingredient_frigo' element.id %}"><span class=" btn btn-info"><i class="fas fa-edit fa sm"></i>Modifier</span></a>
             <a href="{% url 'effacer_ingredient_frigo' element.id %}"><span class=" btn btn-danger"><i class="fas fa-trash fa sm"></i>Supprimer</span></a>
+            {% endif %}
         </div>
 
     </li>

@@ -7,7 +7,9 @@
     {%csrf_token %}
     {{form_ajout}}
 
+    {% if perms.cuisine.utiliser_produit %}
     <input type="submit" class="btn btn-primary button-validation" value="Créer un produit à la liste"/>
+    {% endif %}
 </form>
 
 <ul class="list-unstyled">
@@ -16,7 +18,9 @@
         <i class="fab fa-product-hunt fa-5x mr-3"></i>
         <div class="media-body">
             <h5 class="mt-0 mb-1">{{prod.nom}}</h5>
+            {% if perms.cuisine.modifier_produit %}
             <a href="{% url 'effacer_produits' prod.id %}"><span class=" btn btn-danger"><i class="fas fa-trash fa sm"></i>Supprimer</span></a>
+            {% endif %}
         </div>
 
     </li>

@@ -6,7 +6,9 @@
 <form action="{% url 'gestion_ingredient' %}" method="post" class="element center-element" style="display: inline">
     {%csrf_token %}
     {{form_ajout}}
+    {% if perms.cuisine.utiliser_ingredient %}
     <input type="submit" value="Créer un ingrédient" class="btn btn-primary button-validation"/>
+    {% endif %}
 </form>
 
 <ul class="list-unstyled">

@@ -15,8 +15,9 @@
         <form method="post" action="{% url "connexion" %}">
             {%csrf_token%}
             {{form.as_p}}
-            <input type="submit" value="Se connecter"/>
+            <input type="submit" value="Se connecter" class="btn-primary btn button-validation"/>
         </form>
+        <a href="{% url 'reset_mdp' %}" class="button-validation">Réinitialiser le mot de passe</a>
         {%endif%}
         
     </article>

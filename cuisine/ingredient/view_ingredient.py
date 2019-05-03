@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, get_object_or_404, redirect
 
 from cuisine.ingredient.form_ingredient import IngredientForm, FrigoForm
@@ -7,6 +7,7 @@ from cuisine.models import Ingredient, Frigo
 
 
 @login_required
+@permission_required('cuisine.utiliser_ingredient')
 def gestioningredient(request):
     ingredients = Ingredient.objects.all().order_by("nom")
     form_ajout = IngredientForm(request.POST or None)
@@ -17,6 +18,7 @@ def gestioningredient(request):
 
 
 @login_required
+@permission_required('cuisine.gerer_frigo')
 def gerer_ingredient_frigo(request):
 
     liste_element = Frigo.objects.all().order_by("ingredient")
@@ -39,6 +41,7 @@ def gerer_ingredient_frigo(request):
 
 
 @login_required
+@permission_required('cuisine.gerer_frigo')
 def modifier_ingredient_frigo(request, id_frigo):
 
     frigo_ingredient = get_object_or_404(Frigo, id=id_frigo)
@@ -49,6 +52,7 @@ def modifier_ingredient_frigo(request, id_frigo):
 
 
 @login_required
+@permission_required('cuisine.gerer_frigo')
 def effacer_ingredient_frigo(request, id_ingredient):
     ingredient = get_object_or_404(Frigo, id=id_ingredient)
     ingredient.delete()

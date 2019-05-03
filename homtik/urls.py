@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from general import views as genview
+from django.contrib.auth import views as auth_views
+
+handler404 = genview.err404
 
 urlpatterns = [
     path('', genview.accueil),
@@ -24,6 +27,8 @@ urlpatterns = [
     path('connexion/', genview.connexion, name="connexion"),
     path('accounts/login/', genview.connexion),
     path('deconnexion/', genview.deconnexion, name="deconnexion"),
+    path('changermotdepasse/', auth_views.PasswordChangeView.as_view(), name="change_mdp"),
+    path('resetMotDePasse/', auth_views.PasswordResetView.as_view(), name="reset_mdp"),
 
     path('cuisine/', include('cuisine.urls')),
 ]

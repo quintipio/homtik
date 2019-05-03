@@ -25,7 +25,7 @@ SECRET_KEY = '-h-mtsn^sxr&^(5kvleqee##ykwi^l$%vr@3b9vm29#pn8h$3('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'general.middleware.AuthRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'homtik.urls'
