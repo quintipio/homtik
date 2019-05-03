@@ -3,7 +3,7 @@ from . import views
 from cuisine.autre_produit import view_autres_produits
 from cuisine.ingredient import view_ingredient
 from cuisine.recette import view_recette
-from cuisine.course import  view_course
+from cuisine.course import view_course
 
 urlpatterns = [
     path('', views.accueil, name="cuisineAccueil"),

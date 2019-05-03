@@ -1,5 +1,5 @@
 from django import forms
-from cuisine.models import Ingredient, Frigo, CourseAutre, CourseIngredient
+from cuisine.models import CourseAutre, CourseIngredient
 
 
 class CommentaireForm(forms.Form):

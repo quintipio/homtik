@@ -34,6 +34,7 @@ def nouvelle_course(request):
     liste.save()
     return redirect(gestion_course)
 
+
 @login_required
 @permission_required('cuisine.utiliser_liste_course')
 def modifier_commentaire(request):
@@ -129,7 +130,6 @@ def additioner_course_ingredient(ing_a: CourseIngredient, quant_b: float, unit_b
             or unit_b == unit_a:
 
         # on mémorise l'unité en commun
-        unit_princ = None
         if unit_a.unite_mere is not None:
             unit_princ = unit_a.unite_mere
         elif unit_b.unite_mere is not None:
