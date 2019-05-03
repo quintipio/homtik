@@ -118,7 +118,7 @@ def acheter_produit(request, id_produit):
     return redirect(gestion_course)
 
 
-def additioner_course_ingredient(ing_a: CourseIngredient, quant_b : float, unit_b : Unite):
+def additioner_course_ingredient(ing_a: CourseIngredient, quant_b: float, unit_b: Unite):
     quant_a = ing_a.quantite
     unit_a = ing_a.unite
 
@@ -138,20 +138,21 @@ def additioner_course_ingredient(ing_a: CourseIngredient, quant_b : float, unit_
             unit_princ = unit_a
 
         # on calcul la quantité en commun
-            quant_unif = (quant_a * unit_a.quantite)+(quant_b * unit_b.quantite)
+        quant_unif = (quant_a * unit_a.quantite)+(quant_b * unit_b.quantite)
 
         # si le résultat est supérieur à 1, c'est que on doit prendre la quanité mère
         if quant_unif >= 1:
             ing_a.quantite = quant_unif
             ing_a.unite = unit_princ
         else:  # sinon il faut trouver laquelle prendre
-            liste_unite_enfant = Unite.objects.filter(unite_mere=unit_princ).all().order_by('quantite').desc()
+            liste_unite_enfant = Unite.objects.filter(unite_mere=unit_princ).all().order_by('-quantite')
             # on prend chaque unité en partant de la plus grande, et si on obtient une quanite supérieur à zéro
             # on garde cette unité, sinon on garde la dernière unité
             for counter, value in enumerate(liste_unite_enfant):
-                if quant_unif * value.quantite > 1 or counter == len(liste_unite_enfant):
+                if quant_unif / value.quantite > 1 or counter == len(liste_unite_enfant):
                     ing_a.quantite = quant_unif
                     ing_a.unite = value
+                    break
     return ing_a
 
 
