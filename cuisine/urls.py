@@ -33,4 +33,8 @@ urlpatterns = [
     path('course/effacer/produit/<int:id_produit>', view_course.effacer_autre, name="effacer_produit_course"),
     path('course/effacer/ingredient/<int:id_ingredient>', view_course.effacer_ingredient,
          name="effacer_ingredient_course"),
+    path('course/acheter/ingredient/<int:id_ingredient>', view_course.acheter_ingredient,
+         name="acheter_ingredient_course"),
+    path('course/acheter/produit/<int:id_produit>', view_course.acheter_produit,
+         name="acheter_produit_course"),
 ]

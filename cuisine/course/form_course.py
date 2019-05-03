@@ -10,11 +10,11 @@ class AutreForm(forms.ModelForm):
 
     class Meta:
         model = CourseAutre
-        exclude = ('listeCourse',)
+        exclude = ('listeCourse', 'achete')
 
 
 class IngredientForm(forms.ModelForm):
 
     class Meta:
         model = CourseIngredient
-        exclude = ('listeCourse',)
+        exclude = ('listeCourse', 'achete')

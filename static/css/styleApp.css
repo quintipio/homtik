@@ -124,10 +124,17 @@ footer ul li a :hover {
 }
 
 .liste-A li {
-    background-color: #c8cbcf;
     border-radius: 7px;
     padding: 10px;
     margin:7px;
+}
+
+.liste-A-non-acheter{
+    background-color: #c8cbcf;
+}
+
+.liste-A-acheter{
+    background-color: #5a6268;
 }
 
 .alert {

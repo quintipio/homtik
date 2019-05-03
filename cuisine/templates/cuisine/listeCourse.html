@@ -4,34 +4,39 @@
 {% block content %}
 
 <h2>{{liste.nom}}</h2>
+
+
+{% if perms.cuisine.effacer_liste_course %}
+<a href="{% url 'nouvelle_course' %}" class="center-element"><span class=" btn btn-primary"><i class="fa fa-list-ul fa sm"></i>Nouvelle liste</span></a>
+{% endif %}
+
 <div>
     Commentaire : <br/>
     {{liste.commentaire}}
 </div>
 
+
 <ul class="liste-A">
     {% for element in liste_ingredient %}
-    <li>
+    <li class="{% if element.achete %}liste-A-acheter{% else %}liste-A-non-acheter{% endif %}">
         {% if perms.cuisine.utiliser_liste_course%}
         <a href="{% url 'effacer_ingredient_course' element.id %}"><span class=" btn btn-danger"><i class="fas fa-trash fa sm"></i></span></a>
         {% endif %}
         {{element.ingredient}} : {{element.quantite}} {{element.unite}}
+        <a href="{% url 'acheter_ingredient_course' element.id %}"><span class=" btn btn-primary"><i class="fas fa-coins fa sm"></i></span></a>
     </li>
     {% endfor %}
 
     {% for element in liste_autre %}
-    <li>
+    <li class="{% if element.achete %}liste-A-acheter{% else %}liste-A-non-acheter{% endif %}">
         {% if perms.cuisine.utiliser_liste_course%}
         <a href="{% url 'effacer_produit_course' element.id %}"><span class=" btn btn-danger"><i class="fas fa-trash fa sm"></i></span></a>
         {% endif %}
         {{element.autre}} : {{element.nombre}}
+        <a href="{% url 'acheter_produit_course' element.id %}"><span class=" btn btn-primary"><i class="fas fa-coins fa sm"></i></span></a>
     </li>
     {% endfor %}
 </ul>
-
-{% if perms.cuisine.effacer_liste_course %}
-<a href="{% url 'nouvelle_course' %}" class="center-element"><span class=" btn btn-primary"><i class="fa fa-list-ul fa sm"></i>Nouvelle liste</span></a>
-{% endif %}
 
 {% if perms.cuisine.utiliser_liste_course%}
 <form method="post" action="{% url 'ajouter_produit_course' %}" class="form">
