@@ -7,7 +7,8 @@
 
 
 {% if perms.cuisine.effacer_liste_course %}
-<a href="{% url 'nouvelle_course' %}" class="center-element"><span class=" btn btn-primary"><i class="fa fa-list-ul fa sm"></i>Nouvelle liste</span></a>
+<a href="{% url 'nouvelle_course' %}" class="center-element"><span class=" btn btn-warning "><i class="fa fa-list-ul fa sm"></i>Nouvelle liste</span></a>
+<a href="{% url 'ajouter_recette_choix' %}"><span class=" btn btn-success"><i class="fas fa-hamburger fa sm"></i>Ajouter une recette</span></a>
 {% endif %}
 
 <div>

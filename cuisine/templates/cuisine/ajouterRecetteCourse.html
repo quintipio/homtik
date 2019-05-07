@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Ajouter une recette à la liste de course{% endblock %}
+{% block menu %}{% include "cuisine/menuCuisine.html" %}{% endblock %}
+{% block content %}
+<form method="post" action="{% url 'ajouter_recette_choix' %}" class="form">
+    {%csrf_token %}
+    {{form_ajout_simple.as_table}}
+    <input type="submit" value="Ajouter" class="btn btn-success button-validation">
+</form>
+
+
+{% endblock %}

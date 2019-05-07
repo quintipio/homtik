@@ -4,8 +4,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
 
-from cuisine.course.form_course import CommentaireForm, AutreForm, IngredientForm
-from cuisine.models import ListeCourse, CourseIngredient, CourseAutre, Unite
+from cuisine.course.form_course import CommentaireForm, AutreForm, IngredientForm, AjoutRecetteSimpleForm
+from cuisine.models import ListeCourse, CourseIngredient, CourseAutre, Unite, RecetteIngredient, Ingredient
 
 
 def gestion_course(request):
@@ -25,9 +25,9 @@ def gestion_course(request):
 @login_required
 @permission_required('cuisine.effacer_liste_course')
 def nouvelle_course(request):
-    ListeCourse.objects.all().delete()
     CourseIngredient.objects.all().delete()
     CourseAutre.objects.all().delete()
+    ListeCourse.objects.all().delete()
 
     liste = ListeCourse(nom="Liste du {}/{}/{}".format(datetime.now().day, datetime.now().month, datetime.now().year),
                         commentaire="")
@@ -72,17 +72,8 @@ def ajouter_ingredient(request):
     form = IngredientForm(request.POST)
 
     if form.is_valid():
-
-        if CourseIngredient.objects.filter(ingredient=form.cleaned_data["ingredient"]).count() > 0:
-            ing_dej_present = CourseIngredient.objects.get(ingredient=form.cleaned_data["ingredient"])
-            ing_dej_present = additioner_course_ingredient(ing_dej_present,
-                                                           form.cleaned_data["quantite"],
-                                                           form.cleaned_data["unite"])
-            ing_dej_present.save()
-        else:
-            ingredient = form.save(commit=False)
-            ingredient.listeCourse = ListeCourse.objects.first()
-            ingredient.save()
+        ingredient = form.cleaned_data["ingredient"]
+        ajouter_ingredient_bdd(ingredient, form.cleaned_data['quantite'], form.cleaned_data['unite'])
         messages.success(request, "Ingrédient ajouté")
     return redirect(gestion_course)
 
@@ -119,6 +110,17 @@ def acheter_produit(request, id_produit):
     return redirect(gestion_course)
 
 
+def ajouter_ingredient_bdd(ingredient: Ingredient, quantite, unite):
+    if CourseIngredient.objects.filter(ingredient=ingredient).count() > 0:
+        ing_dej_present = CourseIngredient.objects.get(ingredient=ingredient)
+        ing_dej_present = additioner_course_ingredient(ing_dej_present, quantite, unite)
+        ing_dej_present.save()
+    else:
+        to_save = CourseIngredient(ingredient=ingredient, quantite=quantite, unite=unite)
+        to_save.listeCourse = ListeCourse.objects.first()
+        to_save.save()
+
+
 def additioner_course_ingredient(ing_a: CourseIngredient, quant_b: float, unit_b: Unite):
     quant_a = ing_a.quantite
     unit_a = ing_a.unite
@@ -150,10 +152,27 @@ def additioner_course_ingredient(ing_a: CourseIngredient, quant_b: float, unit_b
             # on garde cette unité, sinon on garde la dernière unité
             for counter, value in enumerate(liste_unite_enfant):
                 if quant_unif / value.quantite > 1 or counter == len(liste_unite_enfant):
-                    ing_a.quantite = quant_unif
+                    ing_a.quantite = quant_unif / value.quantite
                     ing_a.unite = value
                     break
     return ing_a
+
+
+@login_required
+@permission_required('cuisine.utiliser_liste_course')
+def ajouter_recette_choix(request):
+    form_ajout_simple = AjoutRecetteSimpleForm(request.POST or None)
+
+    if request.method == "POST":
+        if form_ajout_simple.is_valid():
+            recette = form_ajout_simple.cleaned_data['recette_choisie']
+            liste_ingredient = RecetteIngredient.objects.filter(recette=recette).all()
+            liste_course = ListeCourse.objects.first()
+            for ingredient in liste_ingredient:
+                ajouter_ingredient_bdd(ingredient.ingredient, ingredient.quantite, ingredient.unite)
+            return redirect(gestion_course)
+
+    return render(request, "cuisine/ajouterRecetteCourse.html", locals())
 
 
 

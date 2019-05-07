@@ -1,5 +1,5 @@
 from django import forms
-from cuisine.models import CourseAutre, CourseIngredient
+from cuisine.models import CourseAutre, CourseIngredient, Recette
 
 
 class CommentaireForm(forms.Form):
@@ -18,3 +18,11 @@ class IngredientForm(forms.ModelForm):
     class Meta:
         model = CourseIngredient
         exclude = ('listeCourse', 'achete')
+
+
+class AjoutRecetteSimpleForm(forms.Form):
+    recette_choisie = forms.ModelChoiceField(queryset=Recette.objects.all(), empty_label="Choisir une recette")
+
+
+class AjouterRecetteSuggestion(forms.Form):
+    forms.S
