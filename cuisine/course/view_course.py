@@ -4,8 +4,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
 
-from cuisine.course.form_course import CommentaireForm, AutreForm, IngredientForm, AjoutRecetteSimpleForm
-from cuisine.models import ListeCourse, CourseIngredient, CourseAutre, Unite, RecetteIngredient, Ingredient
+from cuisine.course.form_course import CommentaireForm, AutreForm, IngredientForm, AjoutRecetteSimpleForm, \
+    AjoutRecetteRechercheForm
+from cuisine.models import ListeCourse, CourseIngredient, CourseAutre, Unite, RecetteIngredient, Ingredient, Recette
 
 
 def gestion_course(request):
@@ -162,17 +163,34 @@ def additioner_course_ingredient(ing_a: CourseIngredient, quant_b: float, unit_b
 @permission_required('cuisine.utiliser_liste_course')
 def ajouter_recette_choix(request):
     form_ajout_simple = AjoutRecetteSimpleForm(request.POST or None)
+    form_ajout_complexe = AjoutRecetteRechercheForm(request.POST or None)
 
     if request.method == "POST":
         if form_ajout_simple.is_valid():
             recette = form_ajout_simple.cleaned_data['recette_choisie']
             liste_ingredient = RecetteIngredient.objects.filter(recette=recette).all()
-            liste_course = ListeCourse.objects.first()
             for ingredient in liste_ingredient:
                 ajouter_ingredient_bdd(ingredient.ingredient, ingredient.quantite, ingredient.unite)
             return redirect(gestion_course)
 
+        if form_ajout_complexe.is_valid():
+            form_ajout_simple = AjoutRecetteSimpleForm(None)
+            recettes = Recette.objects.filter(difficulte__lte=form_ajout_complexe.cleaned_data['difficulte'],
+                                              calorie__lte=form_ajout_complexe.cleaned_data['calorie'],
+                                              categorie__exact=form_ajout_complexe.cleaned_data['categorie']).\
+                all().order_by('-dateDernierePrepa', 'difficulte', 'calorie')
+
     return render(request, "cuisine/ajouterRecetteCourse.html", locals())
+
+
+@login_required
+@permission_required('cuisine.utiliser_liste_course')
+def ajouter_recette_action(request, id_recette):
+    recette = Recette.objects.get(id=id_recette)
+    liste_ingredient = RecetteIngredient.objects.filter(recette=recette).all()
+    for ingredient in liste_ingredient:
+        ajouter_ingredient_bdd(ingredient.ingredient, ingredient.quantite, ingredient.unite)
+    return redirect(gestion_course)
 
 
 

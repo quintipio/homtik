@@ -24,5 +24,7 @@ class AjoutRecetteSimpleForm(forms.Form):
     recette_choisie = forms.ModelChoiceField(queryset=Recette.objects.all(), empty_label="Choisir une recette")
 
 
-class AjouterRecetteSuggestion(forms.Form):
-    forms.S
+class AjoutRecetteRechercheForm(forms.Form):
+    calorie = forms.ChoiceField(choices=Recette.CALORIE_CHOICE, required=False)
+    categorie = forms.ChoiceField(choices=Recette.CATEGORIE_CHOICE, required=False)
+    difficulte = forms.ChoiceField(choices=Recette.DIFFICULTE_CHOICE, required=False)

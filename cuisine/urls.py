@@ -39,4 +39,6 @@ urlpatterns = [
          name="acheter_produit_course"),
     path('course/ajouter/recette/choix', view_course.ajouter_recette_choix,
          name="ajouter_recette_choix"),
+    path('course/ajouter/recette/choix/<int:id_recette>', view_course.ajouter_recette_action,
+         name="ajouter_recette_action"),
 ]

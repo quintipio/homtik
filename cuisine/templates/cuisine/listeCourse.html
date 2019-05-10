@@ -11,11 +11,12 @@
 <a href="{% url 'ajouter_recette_choix' %}"><span class=" btn btn-success"><i class="fas fa-hamburger fa sm"></i>Ajouter une recette</span></a>
 {% endif %}
 
+{% if liste.commentaire %}
 <div>
     Commentaire : <br/>
     {{liste.commentaire}}
 </div>
-
+{% endif %}
 
 <ul class="liste-A">
     {% for element in liste_ingredient %}
