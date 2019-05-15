@@ -163,4 +163,33 @@ class CourseAutre(models.Model):
     achete = models.BooleanField(null=False, default=False)
 
 
+class Planning(models.Model):
+    date = models.DateField(verbose_name="Date", null=False)
+    MOMENT_CHOICE = (
+        (1, "Midi"),
+        (2, "Soir")
+    )
+    moment = models.PositiveIntegerField(
+        null=False,
+        verbose_name="Moment de la journée",
+        validators=[MinValueValidator(1), MaxValueValidator(2)],
+        choices=MOMENT_CHOICE,
+        default=2,
+    )
+    CATEGORIE_CHOICE = (
+        (1, "Entrée"),
+        (2, "Plat"),
+        (3, "Dessert")
+    )
+    categorie = models.PositiveIntegerField(
+        null=False,
+        verbose_name="Repas",
+        validators=[MinValueValidator(1), MaxValueValidator(3)],
+        choices=CATEGORIE_CHOICE,
+        default=2,
+    )
+    recette = models.ForeignKey(Recette, on_delete=models.PROTECT, null=True)
+    champ_libre = models.CharField(max_length=300, null=True)
+
+
 
