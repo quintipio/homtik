@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Ajuster la liste{% endblock %}
+{% block menu %}{% include "cuisine/menuCuisine.html" %}{% endblock %}
+{% block content %}
+<h2>Ajuster la liste de course</h2>
+<form method="post" action="{% url 'comparer_frigo' %}" >
+    {%csrf_token %}
+    {{ form_tab.management_form }}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Ingrédient</th>
+            <th>Nécéssaire</th>
+            <th>Dans le frigo</th>
+            <th>Pour la liste</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for form in form_tab %}
+        <tr>
+            <td>{{form.id}} {{form.ingredient.value}} {{ form.ingredient }}</td>
+            <td>{{form.nb_course.value}} {{ form.nb_course }}</td>
+            <td>{{form.nb_frigo.value}} {{ form.nb_frigo }}</td>
+            <td>
+                {{ form.nb_final.errors }}
+                {{ form.nb_final }}
+                {{ form.unite_final.value }}
+                {{ form.unite_final }}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <input type="submit" class="btn btn-success button-validation" value="Mettre à jour la liste">
+</form>
+{% endblock %}

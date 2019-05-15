@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import formset_factory
+
 from cuisine.models import CourseAutre, CourseIngredient, Recette
 
 
@@ -28,3 +30,15 @@ class AjoutRecetteRechercheForm(forms.Form):
     calorie = forms.ChoiceField(choices=Recette.CALORIE_CHOICE, required=False)
     categorie = forms.ChoiceField(choices=Recette.CATEGORIE_CHOICE, required=False)
     difficulte = forms.ChoiceField(choices=Recette.DIFFICULTE_CHOICE, required=False)
+
+
+class ComparerFrigoForm(forms.Form):
+    id = forms.FloatField(required=True, widget=forms.HiddenInput())
+    ingredient = forms.CharField(required=True, widget=forms.HiddenInput())
+    nb_course = forms.FloatField(required=True, widget=forms.HiddenInput())
+    nb_frigo = forms.FloatField(required=True, widget=forms.HiddenInput())
+    nb_final = forms.FloatField(required=True)
+    unite_final = forms.CharField(required=True, widget=forms.HiddenInput())
+
+
+ComparerFrigoFormset = formset_factory(ComparerFrigoForm, extra=0)

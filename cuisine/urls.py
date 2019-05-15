@@ -41,4 +41,8 @@ urlpatterns = [
          name="ajouter_recette_choix"),
     path('course/ajouter/recette/choix/<int:id_recette>', view_course.ajouter_recette_action,
          name="ajouter_recette_action"),
+    path('course/comparer/frigo', view_course.comparer_frigo,
+         name="comparer_frigo"),
+    path('course/ranger/frigo', view_course.ranger_dans_frigo,
+         name="ranger_dans_frigo"),
 ]
