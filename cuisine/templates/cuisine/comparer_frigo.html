@@ -19,8 +19,8 @@
         {% for form in form_tab %}
         <tr>
             <td>{{form.id}} {{form.ingredient.value}} {{ form.ingredient }}</td>
-            <td>{{form.nb_course.value}} {{ form.nb_course }}</td>
-            <td>{{form.nb_frigo.value}} {{ form.nb_frigo }}</td>
+            <td>{{form.nb_course.value}} {{ form.nb_course }} {{ form.unite_course.value }} {{ form.unite_course }}</td>
+            <td>{{form.nb_frigo.value}} {{ form.nb_frigo }} {{ form.unite_frigo.value }} {{ form.unite_frigo }}</td>
             <td>
                 {{ form.nb_final.errors }}
                 {{ form.nb_final }}

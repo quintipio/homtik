@@ -131,6 +131,9 @@ class RecetteIngredient(models.Model):
     quantite = models.FloatField(max_length=5, null=False)
     unite = models.ForeignKey(Unite, on_delete=models.CASCADE, null=False, default=3)
 
+    def __str__(self):
+        return self.ingredient.nom
+
 
 class ListeCourse(models.Model):
     nom = models.CharField(null=False, max_length=50)
@@ -155,12 +158,18 @@ class CourseIngredient(models.Model):
     unite = models.ForeignKey(Unite, on_delete=models.CASCADE, null=False, default=3)
     achete = models.BooleanField(null=False, default=False)
 
+    def __str__(self):
+        return self.ingredient.nom
+
 
 class CourseAutre(models.Model):
     listeCourse = models.ForeignKey(ListeCourse, on_delete=models.PROTECT)
     autre = models.ForeignKey(AutreProduit, on_delete=models.PROTECT)
     nombre = models.CharField(max_length=50, null=False)
     achete = models.BooleanField(null=False, default=False)
+
+    def __str__(self):
+        return self.autre.nom
 
 
 class Planning(models.Model):
@@ -190,6 +199,9 @@ class Planning(models.Model):
     )
     recette = models.ForeignKey(Recette, on_delete=models.PROTECT, null=True)
     champ_libre = models.CharField(max_length=300, null=True)
+
+    def __str__(self):
+        return "{}".format(self.date)
 
 
 
