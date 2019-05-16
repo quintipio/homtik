@@ -124,10 +124,10 @@ def ajouter_ingredient_bdd(ingredient: Ingredient, quantite, unite):
 
 
 def additioner_course_ingredient(ing_a: CourseIngredient, quant_b: float, unit_b: Unite, is_add: bool = True,
-                                 copy_element = True):
+                                 copy_element=False):
     quant_a = ing_a.quantite
     unit_a = ing_a.unite
-    copy_el  = CourseIngredient()
+    copy_el = CourseIngredient()
 
     # si les deux quantités font partie du même type d'unité
     if unit_a.unite_mere == unit_b.unite_mere \
@@ -193,10 +193,10 @@ def ajouter_recette_choix(request):
     if request.method == "POST":
         if form_ajout_simple.is_valid():
             recette = form_ajout_simple.cleaned_data['recette_choisie']
-            liste_ingredient = RecetteIngredient.objects.filter(recette=recette).all()
+            """liste_ingredient = RecetteIngredient.objects.filter(recette=recette).all()
             for ingredient in liste_ingredient:
-                ajouter_ingredient_bdd(ingredient.ingredient, ingredient.quantite, ingredient.unite)
-            return redirect(gestion_course)
+                ajouter_ingredient_bdd(ingredient.ingredient, ingredient.quantite, ingredient.unite)"""
+            return redirect(ajouter_recette_action, recette.id)
 
         if form_ajout_complexe.is_valid():
             form_ajout_simple = AjoutRecetteSimpleForm(None)
