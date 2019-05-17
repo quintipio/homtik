@@ -24,19 +24,19 @@ def accueil(request):
 
             if len(el_midi) > 0:
                 if el_midi[0].recette is not None:
-                    midi.append(("planning/modifier/{}".format(el_midi[0].id), el_midi[0].recette.titre))
+                    midi.append(("/cuisine/planning/consulter/repas/{}".format(el_midi[0].id), el_midi[0].recette.titre))
                 else:
-                    midi.append(("planning/modifier/{}".format(el_midi[0].id), el_midi[0].champ_libre))
+                    midi.append(("/cuisine/planning/consulter/repas/{}".format(el_midi[0].id), el_midi[0].champ_libre))
             else:
-                midi.append(("{}/midi/{}".format(date.strftime("%Y%m%d"), j), "Ajouter"))
+                midi.append(("/cuisine/planning/ajouter/repas/{}/midi/{}".format(date.strftime("%Y%m%d"), j), "Ajouter"))
 
             if len(el_soir) > 0:
                 if el_soir[0].recette is not None:
-                    soir.append(("planning/modifier/{}".format(el_soir[0].id), el_soir[0].recette.titre))
+                    soir.append(("/cuisine/planning/consulter/repas/{}".format(el_soir[0].id), el_soir[0].recette.titre))
                 else:
-                    soir.append(("planning/modifier/{}".format(el_soir[0].id), el_soir[0].champ_libre))
+                    soir.append(("/cuisine/planning/consulter/repas/{}".format(el_soir[0].id), el_soir[0].champ_libre))
             else:
-                soir.append(("{}/soir/{}".format(date.strftime("%Y%m%d"), j), "Ajouter"))
+                soir.append(("/cuisine/planning/ajouter/repas/{}/soir/{}".format(date.strftime("%Y%m%d"), j), "Ajouter"))
 
         data[date.strftime("%A %d %B")] = [midi, soir]
     print(data)

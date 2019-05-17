@@ -211,48 +211,6 @@ def ajouter_recette_choix(request):
 
 @login_required
 @permission_required('cuisine.utiliser_liste_course')
-def ajouter_recette_action(request, id_recette):
-
-    if request.method == "POST":
-        form_planning = RecettePlanningForm(request.POST)
-        if form_planning.is_valid():
-            if id_recette != 0:
-                recette = Recette.objects.get(id=id_recette)
-                recette.dateDernierePrepa = form_planning.cleaned_data['date_a']
-                recette.save()
-
-                liste_ingredient = RecetteIngredient.objects.filter(recette=recette).all()
-                for ingredient in liste_ingredient:
-                    ajouter_ingredient_bdd(ingredient.ingredient, ingredient.quantite, ingredient.unite)
-
-            planning = Planning(recette=recette if id_recette != 0 else None,
-                                date=form_planning.cleaned_data["date_a"],
-                                categorie=form_planning.cleaned_data["categorie"],
-                                moment=form_planning.cleaned_data["moment"],
-                                champ_libre= form_planning.cleaned_data["champ_libre"] if id_recette == 0 else None)
-            planning.save()
-
-            return redirect(gestion_course)
-    else:
-        data = {'id_recette': id_recette,
-                'moment': 2,
-                'categorie': 2,
-                'date_a': datetime.today().strftime("%d/%m/%Y")}
-        form_planning = RecettePlanningForm(initial=data)
-
-    if id_recette != 0:
-        titre_recette = "Ajout de {}".format(Recette.objects.get(id=id_recette).titre)
-        form_planning.fields['champ_libre'].widget = forms.HiddenInput()
-    else:
-        titre_recette = "Nouveau plat"
-    return render(request, "cuisine/recette_planning.html", {"id_rec": id_recette,
-                                                             "form_planning": form_planning,
-                                                             "recette": titre_recette})
-
-
-
-@login_required
-@permission_required('cuisine.utiliser_liste_course')
 def comparer_frigo(request):
     if request.method == "POST":
         form_tab = ComparerFrigoFormset(request.POST)
@@ -305,3 +263,57 @@ def ranger_dans_frigo(request):
             element_frigo.save()
             el.delete()
     return redirect(gestion_course)
+
+
+
+@login_required
+@permission_required('cuisine.utiliser_liste_course')
+def ajouter_recette_action(request, id_recette):
+
+    if request.method == "POST":
+        form_planning = RecettePlanningForm(request.POST)
+        if form_planning.is_valid():
+            if id_recette != 0:
+                recette = Recette.objects.get(id=id_recette)
+                recette.dateDernierePrepa = form_planning.cleaned_data['date_a']
+                recette.save()
+
+                liste_ingredient = RecetteIngredient.objects.filter(recette=recette).all()
+                for ingredient in liste_ingredient:
+                    ajouter_ingredient_bdd(ingredient.ingredient, ingredient.quantite, ingredient.unite)
+
+            planning = Planning(recette=recette if id_recette != 0 else None,
+                                date=form_planning.cleaned_data["date_a"],
+                                categorie=form_planning.cleaned_data["categorie"],
+                                moment=form_planning.cleaned_data["moment"],
+                                champ_libre= form_planning.cleaned_data["champ_libre"] if id_recette == 0 else None)
+            planning.save()
+
+            return redirect(gestion_course)
+    else:
+        data = {'id_recette': id_recette,
+                'moment': 2,
+                'categorie': 2,
+                'date_a': datetime.today().strftime("%d/%m/%Y")}
+        form_planning = RecettePlanningForm(initial=data)
+
+    if id_recette != 0:
+        titre_recette = "Ajout de {}".format(Recette.objects.get(id=id_recette).titre)
+        form_planning.fields['champ_libre'].widget = forms.HiddenInput()
+    else:
+        titre_recette = "Nouveau plat"
+    return render(request, "cuisine/recette_planning.html", {"id_rec": id_recette,
+                                                             "form_planning": form_planning,
+                                                             "recette": titre_recette})
+
+
+@login_required
+@permission_required('cuisine.utiliser_liste_course')
+def ajouter_recette_planning(request, date, moment, type):
+    return render(request)
+
+
+@login_required
+@permission_required('cuisine.utiliser_liste_course')
+def consulter_recette_planning(request, id_planning):
+    return render(request)
