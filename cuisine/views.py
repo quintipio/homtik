@@ -23,14 +23,20 @@ def accueil(request):
             el_soir = [e for e in repas_soir if e.categorie == j]
 
             if len(el_midi) > 0:
-                midi.append(el_midi[0].recette.titre if el_midi[0].recette is not None else el_midi[0].champ_libre)
+                if el_midi[0].recette is not None:
+                    midi.append(("planning/modifier/{}".format(el_midi[0].id), el_midi[0].recette.titre))
+                else:
+                    midi.append(("planning/modifier/{}".format(el_midi[0].id), el_midi[0].champ_libre))
             else:
-                midi.append("{}/midi/{}".format(date.strftime("%Y%m%d"), j))
+                midi.append(("{}/midi/{}".format(date.strftime("%Y%m%d"), j), "Ajouter"))
 
             if len(el_soir) > 0:
-                soir.append(el_soir[0].recette.titre if el_soir[0].recette is not None else el_soir[0].champ_libre)
+                if el_soir[0].recette is not None:
+                    soir.append(("planning/modifier/{}".format(el_soir[0].id), el_soir[0].recette.titre))
+                else:
+                    soir.append(("planning/modifier/{}".format(el_soir[0].id), el_soir[0].champ_libre))
             else:
-                soir.append("{}/soir/{}".format(date.strftime("%Y%m%d"), j))
+                soir.append(("{}/soir/{}".format(date.strftime("%Y%m%d"), j), "Ajouter"))
 
         data[date.strftime("%A %d %B")] = [midi, soir]
     print(data)
