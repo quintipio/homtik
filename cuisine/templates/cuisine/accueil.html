@@ -3,4 +3,35 @@
 {% block menu %}{% include "cuisine/menuCuisine.html" %}{% endblock %}
 {% block content %}
 
+<table class="table table-striped table-bordered">
+    <tr>
+        {% for key,value in data.items %}
+            <th>{{key}}</th>
+        {% endfor %}
+    </tr>
+    <tr>
+        {% for key,value in data.items %}
+            <td>
+                <table>
+                    <tr><td>{{value.0.0}}</td></tr>
+                    <tr><td>{{value.0.1}}</td></tr>
+                    <tr><td>{{value.0.2}}</td></tr>
+                </table>
+            </td>
+        {% endfor %}
+    </tr>
+    <tr>
+        {% for key,value in data.items %}
+        <td>
+            <table>
+                <tr><td>{{value.1.0}}</td></tr>
+                <tr><td>{{value.1.1}}</td></tr>
+                <tr><td>{{value.1.2}}</td></tr>
+            </table>
+        </td>
+        {% endfor %}
+    </tr>
+</table>
+
+
 {% endblock %}
