@@ -1,12 +1,13 @@
 from django.urls import path
-from . import views
+
+import cuisine.planning.view_planning
 from cuisine.autre_produit import view_autres_produits
 from cuisine.ingredient import view_ingredient
 from cuisine.recette import view_recette
 from cuisine.course import view_course
 
 urlpatterns = [
-    path('', views.accueil, name="cuisineAccueil"),
+    path('', cuisine.planning.view_planning.accueil, name="cuisineAccueil"),
 
     path('produits/', view_autres_produits.gestionproduits, name="gestion_produits"),
     path('produits/effacer/<int:id_produit>', view_autres_produits.effacerproduit, name="effacer_produits"),
@@ -45,8 +46,8 @@ urlpatterns = [
          name="comparer_frigo"),
     path('course/ranger/frigo', view_course.ranger_dans_frigo,
          name="ranger_dans_frigo"),
-    path('planning/consulter/repas/<int:id_planning>', view_course.consulter_recette_planning,
+    path('planning/consulter/repas/<int:id_planning>', cuisine.planning.view_planning.consulter_recette_planning,
          name="planning_consulter_repas"),
-    path('planning/ajouter/repas/<date>/<moment>/<int:type>', view_course.ajouter_recette_planning,
+    path('planning/ajouter/repas/<date>/<moment>/<int:type>', cuisine.planning.view_planning.ajouter_recette_planning,
          name="planning_ajouter_repas"),
 ]

@@ -46,9 +46,8 @@ class ComparerFrigoForm(forms.Form):
 ComparerFrigoFormset = formset_factory(ComparerFrigoForm, extra=0)
 
 
-class RecettePlanningForm(forms.Form):
+class RecetteCoursePlanningForm(forms.Form):
     id_recette = forms.IntegerField(required=False, widget=forms.HiddenInput())
-    champ_libre = forms.CharField(label="Plat", required=False, max_length=300)
     date_a = forms.DateField(required=True, label="Date du repas")
     data_b = forms.DateField(required=False, label="Autre date du repas")
     categorie = forms.ChoiceField(choices=Planning.CATEGORIE_CHOICE, required=True, label="Type de plat")

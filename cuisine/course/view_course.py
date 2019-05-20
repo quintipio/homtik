@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django import forms
 
 from cuisine.course.form_course import CommentaireForm, AutreForm, IngredientForm, AjoutRecetteSimpleForm, \
-    AjoutRecetteRechercheForm, ComparerFrigoFormset, RecettePlanningForm
+    AjoutRecetteRechercheForm, ComparerFrigoFormset, RecetteCoursePlanningForm
 from cuisine.models import ListeCourse, CourseIngredient, CourseAutre, Unite, RecetteIngredient, Ingredient, Recette, \
     Frigo, Planning
 
@@ -169,7 +169,7 @@ def additioner_course_ingredient(ing_a: CourseIngredient, quant_b: float, unit_b
             # on prend chaque unité en partant de la plus grande, et si on obtient une quanite supérieur à zéro
             # on garde cette unité, sinon on garde la dernière unité
             for counter, value in enumerate(liste_unite_enfant):
-                if quant_unif / value.quantite > 1 or counter+1 == len(liste_unite_enfant):
+                if quant_unif / value.quantite > 1 or counter + 1 == len(liste_unite_enfant):
                     if copy_element:
                         copy_el.unite = value
                         copy_el.quantite = round(quant_unif / value.quantite, 2)
@@ -222,7 +222,7 @@ def comparer_frigo(request):
             return redirect(gestion_course)
     else:
         liste_ingredient_course = CourseIngredient.objects.all()
-        liste_ingredient_frigo = Frigo.objects.filter(ingredient__in=[t.ingredient for t in liste_ingredient_course])\
+        liste_ingredient_frigo = Frigo.objects.filter(ingredient__in=[t.ingredient for t in liste_ingredient_course]) \
             .all()
         data = []
         for ing in liste_ingredient_course:
@@ -265,28 +265,24 @@ def ranger_dans_frigo(request):
     return redirect(gestion_course)
 
 
-
 @login_required
 @permission_required('cuisine.utiliser_liste_course')
 def ajouter_recette_action(request, id_recette):
-
     if request.method == "POST":
-        form_planning = RecettePlanningForm(request.POST)
+        form_planning = RecetteCoursePlanningForm(request.POST)
         if form_planning.is_valid():
-            if id_recette != 0:
-                recette = Recette.objects.get(id=id_recette)
-                recette.dateDernierePrepa = form_planning.cleaned_data['date_a']
-                recette.save()
+            recette = Recette.objects.get(id=id_recette)
+            recette.dateDernierePrepa = form_planning.cleaned_data['date_a']
+            recette.save()
 
-                liste_ingredient = RecetteIngredient.objects.filter(recette=recette).all()
-                for ingredient in liste_ingredient:
-                    ajouter_ingredient_bdd(ingredient.ingredient, ingredient.quantite, ingredient.unite)
+            liste_ingredient = RecetteIngredient.objects.filter(recette=recette).all()
+            for ingredient in liste_ingredient:
+                ajouter_ingredient_bdd(ingredient.ingredient, ingredient.quantite, ingredient.unite)
 
             planning = Planning(recette=recette if id_recette != 0 else None,
                                 date=form_planning.cleaned_data["date_a"],
                                 categorie=form_planning.cleaned_data["categorie"],
-                                moment=form_planning.cleaned_data["moment"],
-                                champ_libre= form_planning.cleaned_data["champ_libre"] if id_recette == 0 else None)
+                                moment=form_planning.cleaned_data["moment"])
             planning.save()
 
             return redirect(gestion_course)
@@ -295,25 +291,8 @@ def ajouter_recette_action(request, id_recette):
                 'moment': 2,
                 'categorie': 2,
                 'date_a': datetime.today().strftime("%d/%m/%Y")}
-        form_planning = RecettePlanningForm(initial=data)
+        form_planning = RecetteCoursePlanningForm(initial=data)
 
-    if id_recette != 0:
-        titre_recette = "Ajout de {}".format(Recette.objects.get(id=id_recette).titre)
-        form_planning.fields['champ_libre'].widget = forms.HiddenInput()
-    else:
-        titre_recette = "Nouveau plat"
-    return render(request, "cuisine/recette_planning.html", {"id_rec": id_recette,
-                                                             "form_planning": form_planning,
-                                                             "recette": titre_recette})
-
-
-@login_required
-@permission_required('cuisine.utiliser_liste_course')
-def ajouter_recette_planning(request, date, moment, type):
-    return render(request)
-
-
-@login_required
-@permission_required('cuisine.utiliser_liste_course')
-def consulter_recette_planning(request, id_planning):
-    return render(request)
+    titre_recette = "Ajout de {}".format(Recette.objects.get(id=id_recette).titre)
+    return render(request, "cuisine/recetteCoursePlanning.html", {"id_rec": id_recette, "form_planning": form_planning,
+                                                                  "recette": titre_recette})

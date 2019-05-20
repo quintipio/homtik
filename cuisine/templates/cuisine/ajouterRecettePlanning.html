@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Ajouter une recette{% endblock %}
+{% block menu %}{% include "cuisine/menuCuisine.html" %}{% endblock %}
+{% block content %}
+<h2>{{recette}}</h2>
+<form action="{% url 'planning_ajouter_repas' date moment type %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" class="btn btn-primary button-validation" value="Valider">
+</form>
+{% endblock %}
