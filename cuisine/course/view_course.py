@@ -3,7 +3,6 @@ from datetime import datetime
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
-from django import forms
 
 from cuisine.course.form_course import CommentaireForm, AutreForm, IngredientForm, AjoutRecetteSimpleForm, \
     AjoutRecetteRechercheForm, ComparerFrigoFormset, RecetteCoursePlanningForm
@@ -151,7 +150,7 @@ def additioner_course_ingredient(ing_a: CourseIngredient, quant_b: float, unit_b
             quant_unif = (quant_a * unit_a.quantite) - (quant_b * unit_b.quantite)
             quant_unif = quant_unif if quant_unif > 0 else 0
 
-        # si le résultat est supérieur à 1, c'est que on doit prendre la quanité mère
+        # si le résultat est supérieur à 1, c'est que on doit prendre la quantité mère
         if quant_unif >= 1:
             if copy_element:
                 copy_el.unite = unit_princ
@@ -271,7 +270,7 @@ def ajouter_recette_action(request, id_recette):
     if request.method == "POST":
         form_planning = RecetteCoursePlanningForm(request.POST)
         if form_planning.is_valid():
-            recette = Recette.objects.get(id=id_recette)
+            recette = get_object_or_404(Recette, id=id_recette)
             recette.dateDernierePrepa = form_planning.cleaned_data['date_a']
             recette.save()
 

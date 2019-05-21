@@ -2,7 +2,7 @@ import locale
 from datetime import datetime, timedelta
 
 from django.contrib.auth.decorators import login_required, permission_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from cuisine.course.view_course import ajouter_ingredient_bdd
 from cuisine.models import Planning, Recette, RecetteIngredient
@@ -65,7 +65,7 @@ def ajouter_recette_planning(request, date, moment, type):
             categorie = form.cleaned_data["categorie"]
 
             if recette is not None:
-                recette = Recette.objects.get(id=recette.id)
+                recette = get_object_or_404(Recette, id=recette.id)
                 recette.dateDernierePrepa = date_a
                 recette.save()
 
@@ -96,7 +96,7 @@ def ajouter_recette_planning(request, date, moment, type):
 
 
 def consulter_recette_planning(request, id_planning):
-    planning = Planning.objects.get(id=id_planning)
+    planning = get_object_or_404(Planning, id=id_planning)
     retour = {"id": id_planning, "planning": planning}
     if planning.recette is not None:
         ingredients = RecetteIngredient.objects.filter(recette=planning.recette)
@@ -111,6 +111,6 @@ def consulter_recette_planning(request, id_planning):
 @login_required
 @permission_required('cuisine.utiliser_liste_course')
 def supprimer_recette_planning(request, id_planning):
-    planning = Planning.objects.get(id=id_planning)
+    planning = get_object_or_404(Planning, id=id_planning)
     planning.delete()
     return redirect(accueil)

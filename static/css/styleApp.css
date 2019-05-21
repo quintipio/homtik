@@ -1,5 +1,9 @@
-body {
-    padding-top: 10px;
+.full-height {
+    height: 100vh;
+}
+
+.min-height-core{
+    min-height: 80vh;
 }
 
 .bar-title{
@@ -30,11 +34,8 @@ nav ul li a{
     background-color: black;
     border: 2px solid black;
     color: ghostwhite;
-    border-radius: 6px;
     line-height: 30px;
     text-align: center;
-    margin-bottom: 10px;
-    margin-top: 10px;
 }
 
 .menu ul {
@@ -43,6 +44,11 @@ nav ul li a{
 .menu ul li {
     list-style-type: none;
     text-align: center;
+}
+
+.menu ul li a{
+    color: whitesmoke;
+    text-decoration: none;
 }
 
 section {
