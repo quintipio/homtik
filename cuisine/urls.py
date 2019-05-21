@@ -50,4 +50,6 @@ urlpatterns = [
          name="planning_consulter_repas"),
     path('planning/ajouter/repas/<date>/<moment>/<int:type>', cuisine.planning.view_planning.ajouter_recette_planning,
          name="planning_ajouter_repas"),
+    path('planning/effacer/repas/<int:id_planning>', cuisine.planning.view_planning.supprimer_recette_planning,
+                                             name="planning_effacer_repas"),
 ]

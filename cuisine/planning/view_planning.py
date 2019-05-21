@@ -27,22 +27,24 @@ def accueil(request):
             if len(el_midi) > 0:
                 if el_midi[0].recette is not None:
                     midi.append(
-                        ("/cuisine/planning/consulter/repas/{}".format(el_midi[0].id), el_midi[0].recette.titre))
+                        ("/cuisine/planning/consulter/repas/{}".format(el_midi[0].id), el_midi[0].recette.titre, True))
                 else:
-                    midi.append(("/cuisine/planning/consulter/repas/{}".format(el_midi[0].id), el_midi[0].champ_libre))
+                    midi.append(("/cuisine/planning/consulter/repas/{}".format(el_midi[0].id), el_midi[0].champ_libre,
+                                 True))
             else:
                 midi.append(
-                    ("/cuisine/planning/ajouter/repas/{}/midi/{}".format(date.strftime("%Y%m%d"), j), "Ajouter"))
+                    ("/cuisine/planning/ajouter/repas/{}/midi/{}".format(date.strftime("%Y%m%d"), j), "Ajouter", False))
 
             if len(el_soir) > 0:
                 if el_soir[0].recette is not None:
                     soir.append(
-                        ("/cuisine/planning/consulter/repas/{}".format(el_soir[0].id), el_soir[0].recette.titre))
+                        ("/cuisine/planning/consulter/repas/{}".format(el_soir[0].id), el_soir[0].recette.titre, True))
                 else:
-                    soir.append(("/cuisine/planning/consulter/repas/{}".format(el_soir[0].id), el_soir[0].champ_libre))
+                    soir.append(("/cuisine/planning/consulter/repas/{}".format(el_soir[0].id), el_soir[0].champ_libre,
+                                 True))
             else:
                 soir.append(
-                    ("/cuisine/planning/ajouter/repas/{}/soir/{}".format(date.strftime("%Y%m%d"), j), "Ajouter"))
+                    ("/cuisine/planning/ajouter/repas/{}/soir/{}".format(date.strftime("%Y%m%d"), j), "Ajouter", False))
 
         data[date.strftime("%A %d %B")] = [midi, soir]
     print(data)
@@ -93,48 +95,22 @@ def ajouter_recette_planning(request, date, moment, type):
                                                                    "form": form})
 
 
+def consulter_recette_planning(request, id_planning):
+    planning = Planning.objects.get(id=id_planning)
+    retour = {"id": id_planning, "planning": planning}
+    if planning.recette is not None:
+        ingredients = RecetteIngredient.objects.filter(recette=planning.recette)
+        calorie = range(planning.recette.calorie)
+        difficulte = range(planning.recette.difficulte)
+        retour["ingredients"] = ingredients
+        retour["calorie"] = calorie
+        retour["difficulte"] = difficulte
+    return render(request, "cuisine/consulterRecettePlanning.html", retour)
+
+
 @login_required
 @permission_required('cuisine.utiliser_liste_course')
-def consulter_recette_planning(request, id_planning):
-    return render(request)
-
-
-"""@login_required
-@permission_required('cuisine.utiliser_liste_course')
-def ajouter_recette_action(request, id_recette):
-
-    if request.method == "POST":
-        form_planning = RecetteCoursePlanningForm(request.POST)
-        if form_planning.is_valid():
-            if id_recette != 0:
-                recette = Recette.objects.get(id=id_recette)
-                recette.dateDernierePrepa = form_planning.cleaned_data['date_a']
-                recette.save()
-
-                liste_ingredient = RecetteIngredient.objects.filter(recette=recette).all()
-                for ingredient in liste_ingredient:
-                    ajouter_ingredient_bdd(ingredient.ingredient, ingredient.quantite, ingredient.unite)
-
-            planning = Planning(recette=recette if id_recette != 0 else None,
-                                date=form_planning.cleaned_data["date_a"],
-                                categorie=form_planning.cleaned_data["categorie"],
-                                moment=form_planning.cleaned_data["moment"],
-                                champ_libre= form_planning.cleaned_data["champ_libre"] if id_recette == 0 else None)
-            planning.save()
-
-            return redirect(gestion_course)
-    else:
-        data = {'id_recette': id_recette,
-                'moment': 2,
-                'categorie': 2,
-                'date_a': datetime.today().strftime("%d/%m/%Y")}
-        form_planning = RecetteCoursePlanningForm(initial=data)
-
-    if id_recette != 0:
-        titre_recette = "Ajout de {}".format(Recette.objects.get(id=id_recette).titre)
-        form_planning.fields['champ_libre'].widget = forms.HiddenInput()
-    else:
-        titre_recette = "Nouveau plat"
-    return render(request, "cuisine/recetteCoursePlanning.html", {"id_rec": id_recette,
-                                                             "form_planning": form_planning,
-                                                             "recette": titre_recette})"""
+def supprimer_recette_planning(request, id_planning):
+    planning = Planning.objects.get(id=id_planning)
+    planning.delete()
+    return redirect(accueil)

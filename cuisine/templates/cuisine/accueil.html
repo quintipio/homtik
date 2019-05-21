@@ -13,9 +13,9 @@
         {% for key,value in data.items %}
             <td>
                 <table>
-                    <tr><td><a href="{{value.0.0.0}}" >{{value.0.0.1}}</a></td></tr>
-                    <tr><td><a href="{{value.0.1.0}}" >{{value.0.1.1}}</a></td></tr>
-                    <tr><td><a href="{{value.0.2.0}}" >{{value.0.2.1}}</a></td></tr>
+                    <tr><td><a href="{{value.0.0.0}}" class="{%if value.0.0.2 %}truelink{%else%}falselink{%endif%}" >{{value.0.0.1}}</a></td></tr>
+                    <tr><td><a href="{{value.0.1.0}}" class="{%if value.0.1.2 %}truelink{%else%}falselink{%endif%}" >{{value.0.1.1}}</a></td></tr>
+                    <tr><td><a href="{{value.0.2.0}}" class="{%if value.0.2.2 %}truelink{%else%}falselink{%endif%}" >{{value.0.2.1}}</a></td></tr>
                 </table>
             </td>
         {% endfor %}
@@ -24,9 +24,9 @@
         {% for key,value in data.items %}
         <td>
             <table>
-                <tr><td><a href="{{value.1.0.0}}" >{{value.1.0.1}}</a></td></tr>
-                <tr><td><a href="{{value.1.1.0}}" >{{value.1.1.1}}</a></td></tr>
-                <tr><td><a href="{{value.1.2.0}}" >{{value.1.2.1}}</a></td></tr>
+                <tr><td><a href="{{value.1.0.0}}" class="{%if value.1.0.2 %}truelink{%else%}falselink{%endif%}" >{{value.1.0.1}}</a></td></tr>
+                <tr><td><a href="{{value.1.1.0}}" class="{%if value.1.1.2 %}truelink{%else%}falselink{%endif%}" >{{value.1.1.1}}</a></td></tr>
+                <tr><td><a href="{{value.1.2.0}}" class="{%if value.1.2.2 %}truelink{%else%}falselink{%endif%}" >{{value.1.2.1}}</a></td></tr>
             </table>
         </td>
         {% endfor %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Ajouter une recette{% endblock %}
+{% block menu %}{% include "cuisine/menuCuisine.html" %}{% endblock %}
+{% block content %}
+
+<h1 class="center-element"></h1>
+
+<p class="paragraphe">
+    {% if planning.recette is not None %}
+    <h1>{{planning.recette.titre}}</h1>
+    {% else %}
+    <h1>{{planning.champ_libre}}</h1>
+    {%endif%}
+    <br/>
+    {{planning.get_categorie_display}} du {{planning.date}} au {{planning.get_moment_display}}
+
+    {% if planning.recette is not None %}
+    <br/>
+    <p class="paragraphe">
+    Recette :
+        <br/>
+        Temps de préparation : {{planning.recette.tempsPreparation}} minutes
+        <br/>
+        Gras :
+        {% for i in calorie %}
+        <i class="fas fa-star"></i>
+        {%endfor%}
+        <br/>
+        Difficulté :
+        {% for i in difficulte %}
+        <i class="fas fa-star"></i>
+        {%endfor%}
+    </p>
+
+    <p class="paragraphe">
+        Ingrédients :
+    <ul>
+        {% for ingredient in ingredients %}
+        <li>{{ingredient.quantite}} {{ingredient.unite.diminutif}} - {{ingredient.ingredient.nom}}</li>
+        {%empty%}
+        <li>Aucun ingrédients</li>
+        {%endfor%}
+    </ul>
+    </p>
+    <ul>
+
+    </ul>
+
+    <p class="paragraphe">
+        {{planning.recette.contenu}}
+    </p>
+{%endif%}
+
+{% if perms.cuisine.utiliser_liste_course %}
+<a href="{% url 'planning_effacer_repas' id %}"><span class=" btn btn-danger"><i class="fas fa-trash fa sm"></i>Supprimer du calendrier</span></a>
+{% endif %}
+
+</p>
+
+{% endblock %}

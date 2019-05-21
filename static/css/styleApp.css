@@ -154,5 +154,9 @@ footer ul li a :hover {
 
 .falselink{
     text-decoration: none;
+    color:black;
 }
 
+.truelink{
+    font-weight:bold;
+}
