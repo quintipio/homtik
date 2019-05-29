@@ -3,6 +3,35 @@
 {% block menu %}{% include "cuisine/menuCuisine.html" %}{% endblock %}
 {% block content %}
 
+<script>
+
+    function change_class(element) {
+        if($(element).parent().attr("class") === "liste-A-non-acheter") {
+            $(element).parent().attr("class","liste-A-acheter")
+        } else {
+            $(element).parent().attr("class","liste-A-non-acheter")
+        }
+    }
+
+    function changeEtat(element, obj_id, is_ingredient) {
+        if(is_ingredient) {
+            $.ajax({
+                url: "acheter/ingredient/"+obj_id,
+                dataType: 'html',
+                success:
+                    change_class(element)
+            });
+        } else {
+            $.ajax({
+                url: "acheter/produit/"+obj_id,
+                dataType: 'html',
+                success:
+                    change_class(element)
+            });
+        }
+    }
+</script>
+
 <h2>{{liste.nom}}</h2>
 
 
@@ -27,7 +56,7 @@
         <a href="{% url 'effacer_ingredient_course' element.id %}"><span class=" btn btn-danger"><i class="fas fa-trash fa sm"></i></span></a>
         {% endif %}
         {{element.ingredient}} : {{element.quantite}} {{element.unite}}
-        <a href="{% url 'acheter_ingredient_course' element.id %}"><span class=" btn btn-primary"><i class="fas fa-coins fa sm"></i></span></a>
+        <a onclick="changeEtat(this, '{{element.id}}', true )"><span class=" btn btn-primary"><i class="fas fa-coins fa sm"></i></span></a> <!--href="{% url 'acheter_ingredient_course' element.id %}"-->
     </li>
     {% endfor %}
 
@@ -37,7 +66,7 @@
         <a href="{% url 'effacer_produit_course' element.id %}"><span class=" btn btn-danger"><i class="fas fa-trash fa sm"></i></span></a>
         {% endif %}
         {{element.autre}} : {{element.nombre}}
-        <a href="{% url 'acheter_produit_course' element.id %}"><span class=" btn btn-primary"><i class="fas fa-coins fa sm"></i></span></a>
+        <a onclick="changeEtat(this, '{{element.id}}', false )"><span class=" btn btn-primary"><i class="fas fa-coins fa sm"></i></span></a>
     </li>
     {% endfor %}
 </ul>

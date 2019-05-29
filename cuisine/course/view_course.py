@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from cuisine.course.form_course import CommentaireForm, AutreForm, IngredientForm, AjoutRecetteSimpleForm, \
@@ -102,14 +103,14 @@ def acheter_ingredient(request, id_ingredient):
     ingredient = get_object_or_404(CourseIngredient, id=id_ingredient)
     ingredient.achete = not ingredient.achete
     ingredient.save()
-    return redirect(gestion_course)
+    return HttpResponse('')
 
 
 def acheter_produit(request, id_produit):
     produit = get_object_or_404(CourseAutre, id=id_produit)
     produit.achete = not produit.achete
     produit.save()
-    return redirect(gestion_course)
+    return HttpResponse('')
 
 
 def ajouter_ingredient_bdd(ingredient: Ingredient, quantite, unite):
