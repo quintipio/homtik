@@ -31,4 +31,5 @@ urlpatterns = [
     path('resetMotDePasse/', auth_views.PasswordResetView.as_view(), name="reset_mdp"),
 
     path('cuisine/', include('cuisine.urls')),
+    path('mediatheque/', include('mediatheque.urls')),
 ]
