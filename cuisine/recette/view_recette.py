@@ -12,7 +12,7 @@ def gerer_recette(request):
 
 
 def consulter_recette(request, id_recette):
-    recette = Recette.objects.get_object_or_404(id=id_recette)
+    recette = get_object_or_404(Recette, id=id_recette)
     ingredients = RecetteIngredient.objects.filter(recette=recette)
     calorie = range(recette.calorie)
     difficulte = range(recette.difficulte)
