@@ -166,3 +166,7 @@ footer ul li a :hover {
 .truelink{
     font-weight:bold;
 }
+
+element-navigator li {
+    text-decoration: none;
+}

@@ -2,5 +2,39 @@
 {% block title %}Gestion de la cuisine{% endblock %}
 {% block menu %}{% include "mediatheque/menuMediatheque.html" %}{% endblock %}
 {% block content %}
-Hello
+
+{% csrf_token %}
+<script>
+
+
+    function open_folder(to_open) {
+        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
+        $.ajax({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            },
+            type: 'POST',
+            url: "path/",
+            dataType: 'json',
+            data: {'folder': to_open},
+            success: function (data) {
+                console.debug(data)
+                for el in data['list_folder']:
+                    $('liste_dossier').html
+            }
+
+        });
+    }
+</script>
+
+<div>
+    <ul id="liste_dossier" class="element-navigator">
+       {% for key, value in list_folder.items  %}
+        <li ><div onclick="open_folder({{key}})">{{value}}</div></li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}
