@@ -22,8 +22,18 @@
             data: {'folder': to_open},
             success: function (data) {
                 console.debug(data)
-                for el in data['list_folder']:
-                    $('liste_dossier').html
+
+                $('#liste_dossier').empty();
+                $.each(data['list_folder'], function( key, value ) {
+                    console.debug(key);
+                    $('#liste_dossier').append('<li><div onclick="open_folder('+key+')">'+value+'</div></li>');
+                });
+
+                $('#liste_fichier').empty();
+                $.each(data['list_files'], function( key, value ) {
+                    console.debug(key);
+                    $('#liste_fichier').append('<li><div onclick="open_folder('+key+')">'+value+'</div></li>');
+                });
             }
 
         });
@@ -33,7 +43,13 @@
 <div>
     <ul id="liste_dossier" class="element-navigator">
        {% for key, value in list_folder.items  %}
-        <li ><div onclick="open_folder({{key}})">{{value}}</div></li>
+        <li><div onclick="open_folder({{key}})">{{value}}</div></li>
+        {% endfor %}
+    </ul>
+
+    <ul id="liste_fichier" class="element-navigator">
+        {% for key, value in list_files.items  %}
+        <li><div onclick="open_folder({{key}})">{{value}}</div></li>
         {% endfor %}
     </ul>
 </div>

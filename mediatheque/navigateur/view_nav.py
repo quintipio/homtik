@@ -2,6 +2,7 @@ import json
 
 from django.http import HttpResponse
 from django.shortcuts import render
+from pathlib import Path
 import os
 
 FOLDER_ROOT = "/home/vnps3445/Public"
@@ -10,6 +11,10 @@ FOLDER_ROOT = "/home/vnps3445/Public"
 def scan_folder(url: str):
     list_files = {}
     list_folder = {}
+
+    if url != "/":
+        list_folder[str(Path(url).parent)] = 'Dossier parent'
+
     for element in os.listdir(FOLDER_ROOT+url):
         if os.path.isdir(FOLDER_ROOT+url+element):
             list_folder[url+element+"/"] = element
