@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Gestion de la cuisine{% endblock %}
+{% block title %}Parcourir les répertoires{% endblock %}
 {% block menu %}{% include "mediatheque/menuMediatheque.html" %}{% endblock %}
 {% block content %}
 
@@ -26,30 +26,36 @@
                 $('#liste_dossier').empty();
                 $.each(data['list_folder'], function( key, value ) {
                     console.debug(key);
-                    $('#liste_dossier').append('<li><div onclick="open_folder('+key+')">'+value+'</div></li>');
+                    $('#liste_dossier').append('<li><div onclick="open_folder(\''+key+'\')"><i class="fas fa-folder" style="margin-right: 5px;"></i>'+value+'</div></li>');
                 });
 
                 $('#liste_fichier').empty();
                 $.each(data['list_files'], function( key, value ) {
                     console.debug(key);
-                    $('#liste_fichier').append('<li><div onclick="open_folder('+key+')">'+value+'</div></li>');
+                    $('#liste_fichier').append('<li><div onclick="open_folder(\''+key+'\')">'+value+'</div></li>');
                 });
             }
 
         });
     }
+
+    $(window).on('load', function() {
+        open_folder("/");
+    });
 </script>
 
-<div>
-    <ul id="liste_dossier" class="element-navigator">
-       {% for key, value in list_folder.items  %}
-        <li><div onclick="open_folder({{key}})">{{value}}</div></li>
+<div class="container">
+    <div class="row">Dossiers : </div>
+    <ul id="liste_dossier" class="row element-navigator">
+       {% for key_map, value in list_folder.items  %}
+        <li ><div onclick="open_folder({{key_map}})" class="col-sm-4"><i class="fas fa-folder" style="margin-right: 5px;"></i>{{value}}</div></li>
         {% endfor %}
     </ul>
-
-    <ul id="liste_fichier" class="element-navigator">
+    <hr style="margin-bottom:20px; margin-top: 20px;">
+    <div class="row">Fichiers : </div>
+    <ul id="liste_fichier" class="row element-navigator">
         {% for key, value in list_files.items  %}
-        <li><div onclick="open_folder({{key}})">{{value}}</div></li>
+        <li ><div onclick="open_folder({{key_map}})" class="col-sm4"><{{value}}</div></li>
         {% endfor %}
     </ul>
 </div>

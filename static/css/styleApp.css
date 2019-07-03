@@ -167,6 +167,21 @@ footer ul li a :hover {
     font-weight:bold;
 }
 
-element-navigator li {
-    text-decoration: none;
+.element-navigator {
+    list-style-type: none;
+}
+
+.element-navigator li {
+    display: inline;
+    margin:10px;
+}
+
+.element-navigator li div {
+    padding: 20px;
+    border: 2px solid black;
+    border-radius:4px;
+}
+
+.element-navigator li div:hover {
+    cursor: pointer;
 }

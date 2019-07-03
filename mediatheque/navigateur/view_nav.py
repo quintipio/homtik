@@ -24,12 +24,14 @@ def scan_folder(url: str):
 
 
 def accueil(request):
-    list_files, list_folder = scan_folder("/")
-    return render(request, "mediatheque/accueil.html", locals())
+    return render(request, "mediatheque/accueil.html")
 
 
 def load_folder(request):
     folder = request.POST['folder']
-    list_files, list_folder = scan_folder(folder)
-    data = {"list_files": list_files, "list_folder": list_folder}
+    if os.path.isfile(FOLDER_ROOT+folder):
+        print("fichier")
+    else :
+        list_files, list_folder = scan_folder(folder)
+        data = {"list_files": list_files, "list_folder": list_folder}
     return HttpResponse(json.dumps(data))
